@@ -1,35 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
-
-    <Button
-        android:id="@+id/btnSearchEnToVi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tìm kiếm Anh → Việt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
-        android:layout_alignParentTop="true" />
-
-    <Button
-        android:id="@+id/btnSearchViToEn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tìm kiếm Việt → Anh"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/btnSearchEnToVi"
-        android:layout_marginBottom="24dp"/>
-
-    <TextView
-        android:id="@+id/tvInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chọn chế độ tìm kiếm"
-        android:layout_below="@id/btnSearchViToEn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:textSize="18sp"/>
-
-</RelativeLayout>
+    
+</androidx.constraintlayout.widget.ConstraintLayout>
