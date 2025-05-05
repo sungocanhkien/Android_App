@@ -10,20 +10,25 @@
         android:id="@+id/searchBar"
         android:layout_width="378dp"
         android:layout_height="55dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <EditText
             android:id="@+id/edtTextSearch"
-            android:layout_width="wrap_content"
+            android:layout_width="319dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Nhập từ cần tìm..."
-            ></EditText>
+            android:hint="Nhập từ cần tìm..."></EditText>
+        <ImageButton
+            android:src="@android:drawable/ic_menu_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Tìm Kiếm"></ImageButton>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
