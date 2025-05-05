@@ -7,6 +7,7 @@
     android:padding="16dp">
 
     <LinearLayout
+        android:id="@+id/searchBar"
         android:layout_width="378dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
@@ -16,7 +17,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+        <EditText
+            android:id="@+id/edtTextSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Nhập từ cần tìm..."
+            ></EditText>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
