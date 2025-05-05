@@ -25,10 +25,17 @@
             android:layout_weight="1"
             android:hint="Nhập từ cần tìm..."></EditText>
         <ImageButton
+            android:id="@+id/btnSearch"
             android:src="@android:drawable/ic_menu_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="Tìm Kiếm"></ImageButton>
+        <ImageButton
+            android:id="@+id/btnChuyenNN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_rotate"
+            android:contentDescription="Chuyển ngôn ngữ"></ImageButton>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
