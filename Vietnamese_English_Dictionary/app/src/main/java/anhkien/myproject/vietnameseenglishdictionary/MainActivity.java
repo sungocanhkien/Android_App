@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         imagebuttonSearch = findViewById(R.id.btnSearch);
         imagebuttonSwitchLang = findViewById(R.id.btnChuyenNN);
         bottomNavigationView = findViewById(R.id.bottomMenu);
-        
-        loadFragment(new FragmentMenu("home"));
 
+
+        loadFragment(FragmentMenu.newInstance("home"));
         //xử lý bottomNavigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();

@@ -18,8 +18,13 @@ public class FragmentMenu extends Fragment {
     private boolean isEngLishToVietnamese = true;
     private TextToSpeech tts;
 
-    public FragmentMenu(String tab) {
-        this.currentTab = tab;
+
+    public static FragmentMenu newInstance(String tab) {
+        FragmentMenu fragmentMenu = new FragmentMenu();
+        Bundle args = new Bundle();
+        args.putString("tab", tab);
+        fragmentMenu.setArguments(args);
+        return fragmentMenu;
     }
 
     public void setSearchKeyword(String searchKeyword, boolean isEngLishToVietnamese) {
