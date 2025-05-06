@@ -33,6 +33,21 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomMenu);
         
         loadFragment(new FragmentMenu("home"));
+
+        //xử lý bottomNavigation
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.nav_home:
+                    loadFragment(new FragmentMenu("home"));
+                    return true;
+                case R.id.nav_favorite:
+                    loadFragment(new FragmentMenu("favorite"));
+                    return true;
+            }
+            return false;
+        });
+
+        
         
         
     }
