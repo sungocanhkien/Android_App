@@ -36,22 +36,37 @@ public class MainActivity extends AppCompatActivity {
 
         //xử lý bottomNavigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.nav_home:
-                    loadFragment(new FragmentMenu("home"));
-                    return true;
-                case R.id.nav_favorite:
-                    loadFragment(new FragmentMenu("favorite"));
-                    return true;
+            int id = item.getItemId();
+            if (id == R.id.nav_home){
+                loadFragment(new FragmentMenu("home"));
+                return true;
+            } else if (id == R.id.nav_favorite) {
+                loadFragment(new FragmentMenu("favorite"));
+                return true;
             }
             return false;
         });
 
-        
+        //xử lý nút chuyển Anh-Việt / Việt-Anh
+        imagebuttonSwitchLang.setOnClickListener(v -> {
+            isEnglishToVietnamese = !isEnglishToVietnamese;
+        });
+
+        //xử lý nút tìm kiếm
+        imagebuttonSearch.setOnClickListener(v -> {
+            String keyword = editTextSearch.getText().toString().trim();
+            if (!keyword.isEmpty()){
+                //Truyền từ khóa cho FragmentMenu để xử lý tìm kiếm
+                FragmentMenu fragmentMenu = new FragmentMenu("home");
+                fragmentMenu.setSearchKeyword(keyword, isEnglishToVietnamese);
+                loadFragment(fragmentMenu);
+            }
+        });
         
         
     }
 
-    private void loadFragment(FragmentMenu home) {
+    private void loadFragment(FragmentMenu fragmentMenu) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.hienthiKQ, fragmentMenu).commit();
     }
 }
