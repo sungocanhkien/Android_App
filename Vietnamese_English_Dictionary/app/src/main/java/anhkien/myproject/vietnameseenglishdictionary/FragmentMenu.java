@@ -48,4 +48,13 @@ public class FragmentMenu extends Fragment {
         });
         return view;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (tts != null){
+            tts.stop();
+            tts.shutdown();
+        }
+    }
 }
