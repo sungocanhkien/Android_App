@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 public class FragmentMenu extends Fragment {
     private String currentTab = "home";
     private String searchKeyword = "";
@@ -39,5 +41,11 @@ public class FragmentMenu extends Fragment {
         resultText.setText(currentTab.equals("home")? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
 
         //Khởi tạo TextTospeech
+        tts = new TextToSpeech(getContext(), status -> {
+            if(status == TextToSpeech.SUCCESS){
+                tts.setLanguage(Locale.US);
+            }
+        });
+        return view;
     }
 }
