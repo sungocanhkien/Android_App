@@ -26,5 +26,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        
+        editTextSearch = findViewById(R.id.edtTextSearch);
+        imagebuttonSearch = findViewById(R.id.btnSearch);
+        imagebuttonSwitchLang = findViewById(R.id.btnChuyenNN);
+        bottomNavigationView = findViewById(R.id.bottomMenu);
+        
+        loadFragment(new FragmentMenu("home"));
+        
+        
+    }
+
+    private void loadFragment(FragmentMenu home) {
     }
 }
