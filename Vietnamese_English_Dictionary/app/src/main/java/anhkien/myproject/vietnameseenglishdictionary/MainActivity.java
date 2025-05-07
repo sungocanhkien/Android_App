@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         imagebuttonSwitchLang = findViewById(R.id.btnChuyenNN);
         bottomNavigationView = findViewById(R.id.bottomMenu);
 
-        
+
         //xử lý bottomNavigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
