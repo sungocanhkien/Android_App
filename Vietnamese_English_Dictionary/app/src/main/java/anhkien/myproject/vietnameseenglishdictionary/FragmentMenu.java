@@ -19,10 +19,12 @@ public class FragmentMenu extends Fragment {
     private TextToSpeech tts;
 
 
-    public static FragmentMenu newInstance(String tab) {
+    public static FragmentMenu newInstance(String tab, String searchKeyword, boolean isEngLishToVietnamese) {
         FragmentMenu fragmentMenu = new FragmentMenu();
         Bundle args = new Bundle();
         args.putString("tab", tab);
+        args.putString("keyword", searchKeyword);
+        args.putBoolean("isEnglishToVietnamese",isEngLishToVietnamese);
         fragmentMenu.setArguments(args);
         return fragmentMenu;
     }
@@ -35,7 +37,11 @@ public class FragmentMenu extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (getArguments() != null){
+            currentTab = getArguments().getString("tab", "home");
+            searchKeyword = getArguments().getString("keyword", "");
+            isEngLishToVietnamese = getArguments().getBoolean("isEnglishToVietnamese", true);
+        }
     }
 
     @Override

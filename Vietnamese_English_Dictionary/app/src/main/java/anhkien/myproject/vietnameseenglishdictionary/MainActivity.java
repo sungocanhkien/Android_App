@@ -32,16 +32,15 @@ public class MainActivity extends AppCompatActivity {
         imagebuttonSwitchLang = findViewById(R.id.btnChuyenNN);
         bottomNavigationView = findViewById(R.id.bottomMenu);
 
-
-        loadFragment(FragmentMenu.newInstance("home"));
+        
         //xử lý bottomNavigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home){
-                loadFragment(new FragmentMenu("home"));
+                loadFragment(FragmentMenu.newInstance("home", "", true));
                 return true;
             } else if (id == R.id.nav_favorite) {
-                loadFragment(new FragmentMenu("favorite"));
+                loadFragment(FragmentMenu.newInstance("favorite", "", true));
                 return true;
             }
             return false;
@@ -57,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
             String keyword = editTextSearch.getText().toString().trim();
             if (!keyword.isEmpty()){
                 //Truyền từ khóa cho FragmentMenu để xử lý tìm kiếm
-                FragmentMenu fragmentMenu = new FragmentMenu("home");
-                fragmentMenu.setSearchKeyword(keyword, isEnglishToVietnamese);
-                loadFragment(fragmentMenu);
+                loadFragment(FragmentMenu.newInstance("home", keyword, isEnglishToVietnamese));
             }
         });
         
