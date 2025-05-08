@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFragment(FragmentMenu fragmentMenu) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.hienthiKQ, fragmentMenu).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.hienthiKQ, fragmentMenu)
+                .commitNow();
     }
 }
