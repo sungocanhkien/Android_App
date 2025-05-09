@@ -15,7 +15,6 @@ import java.util.Locale;
 
 import anhkien.myproject.vietnameseenglishdictionary.api.ApiClient;
 import anhkien.myproject.vietnameseenglishdictionary.api.DictionaryApi;
-import anhkien.myproject.vietnameseenglishdictionary.api.DictionaryResponse;
 import retrofit2.Call;
 
 public class FragmentMenu extends Fragment {
