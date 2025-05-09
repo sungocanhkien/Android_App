@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import anhkien.myproject.vietnameseenglishdictionary.api.ApiClient;
 import anhkien.myproject.vietnameseenglishdictionary.api.DictionaryApi;
+import anhkien.myproject.vietnameseenglishdictionary.model.WordResponse;
 import retrofit2.Call;
 
 public class FragmentMenu extends Fragment {
@@ -22,6 +23,9 @@ public class FragmentMenu extends Fragment {
     private String searchKeyword = "";
     private boolean isEngLishToVietnamese = true;
     private TextToSpeech tts;
+    private DictionaryRepository dictionaryRepository;
+    private TextView resultText;
+
 
 
     public static FragmentMenu newInstance(String tab, String searchKeyword, boolean isEngLishToVietnamese) {
@@ -54,39 +58,40 @@ public class FragmentMenu extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
         TextView resultText = view.findViewById(R.id.txtResult);
+        dictionaryRepository = new DictionaryRepository();
         resultText.setText(currentTab.equals("home")? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
 
         if (currentTab.equals("home") && !searchKeyword.isEmpty()) {
-            DictionaryApi dictionaryApi = ApiClient.getRetrofit().create(DictionaryApi.class);
-            Call<List<DictionaryResponse>> call = dictionaryApi.getMeaning(searchKeyword);
-
-            call.enqueue(new retrofit2.Callback<List<DictionaryResponse>>() {
+            dictionaryRepository.searchWord(searchKeyword, new DictionaryRepository.DictionaryCallback() {
                 @Override
-                public void onResponse(Call<List<DictionaryResponse>> call, retrofit2.Response<List<DictionaryResponse>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        StringBuilder resultBuilder = new StringBuilder();
-                        for (DictionaryResponse entry : response.body()) {
-                            resultBuilder.append("Từ: ").append(entry.getWord()).append("\n\n");
-                            for (DictionaryResponse.Meaning meaning : entry.getMeanings()) {
-                                resultBuilder.append("* ").append(meaning.getPartOfSpeech()).append("\n");
-                                for (DictionaryResponse.Definition def : meaning.getDefinitions()) {
-                                    resultBuilder.append("  - ").append(def.getDefinition()).append("\n");
-                                }
-                                resultBuilder.append("\n");
+                public void onSuccess(WordResponse wordResponse) {
+                    StringBuilder builder = new StringBuilder();
+                    builder.append("Từ: ").append(wordResponse.getWord()).append("\n\n");
+                    if (!wordResponse.getMeanings().isEmpty()) {
+                        builder.append("Loại từ: ")
+                                .append(wordResponse.getMeanings().get(0).getPartOfSpeech()).append("\n");
+
+                        if (!wordResponse.getMeanings().get(0).getDefinitions().isEmpty()) {
+                            builder.append("Nghĩa: ")
+                                    .append(wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition())
+                                    .append("\n");
+
+                            String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
+                            if (example != null) {
+                                builder.append("Ví dụ: ").append(example);
                             }
                         }
-                        resultText.setText(resultBuilder.toString());
-                    } else {
-                        resultText.setText("Không tìm thấy kết quả.");
                     }
+                    resultText.setText(builder.toString());
                 }
 
                 @Override
-                public void onFailure(Call<List<DictionaryResponse>> call, Throwable t) {
-                    resultText.setText("Lỗi kết nối: " + t.getMessage());
+                public void onFailure(String message) {
+                    resultText.setText("Lỗi: " + message);
                 }
             });
         }
+
 
 
         //Khởi tạo TextTospeech
