@@ -8,7 +8,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
     public interface DictionaryApi {
-        @GET("api/v2/entries/en/{word}")
+        @GET("{word}")
         Call<List<DictionaryResponse>> getMeaning(@Path("word") String word);
     }
 

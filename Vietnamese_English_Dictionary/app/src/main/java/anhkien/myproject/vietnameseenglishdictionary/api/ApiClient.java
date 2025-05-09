@@ -8,7 +8,7 @@ public class ApiClient {
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.dictionaryapi.dev/")
+                    .baseUrl("https://api.dictionaryapi.dev/api/v2/entries/en/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
