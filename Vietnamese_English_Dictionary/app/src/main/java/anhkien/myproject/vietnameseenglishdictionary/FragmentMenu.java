@@ -57,7 +57,7 @@ public class FragmentMenu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
-        TextView resultText = view.findViewById(R.id.txtResult);
+        resultText = view.findViewById(R.id.txtResult);
         dictionaryRepository = new DictionaryRepository();
         resultText.setText(currentTab.equals("home")? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
 
@@ -91,24 +91,6 @@ public class FragmentMenu extends Fragment {
                 }
             });
         }
-
-
-
-        //Khởi tạo TextTospeech
-        tts = new TextToSpeech(getContext(), status -> {
-            if(status == TextToSpeech.SUCCESS){
-                tts.setLanguage(Locale.US);
-            }
-        });
         return view;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (tts != null){
-            tts.stop();
-            tts.shutdown();
-        }
     }
 }
