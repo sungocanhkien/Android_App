@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:id="@+id/searchBar"
-        android:layout_width="378dp"
-        android:layout_height="55dp"
+        android:layout_width="374dp"
+        android:layout_height="64dp"
         android:layout_marginTop="28dp"
         android:orientation="horizontal"
         android:padding="8dp"
@@ -22,20 +22,23 @@
             android:id="@+id/edtTextSearch"
             android:layout_width="319dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:hint="Nhập từ cần tìm..."></EditText>
+
         <ImageButton
             android:id="@+id/btnSearch"
-            android:src="@android:drawable/ic_menu_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="Tìm Kiếm"></ImageButton>
+            android:contentDescription="Tìm Kiếm"
+            android:src="@android:drawable/ic_menu_search"></ImageButton>
+
         <ImageButton
             android:id="@+id/btnChuyenNN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_rotate"
-            android:contentDescription="Chuyển ngôn ngữ"></ImageButton>
+            android:contentDescription="Chuyển ngôn ngữ"
+            android:src="@android:drawable/ic_menu_rotate"></ImageButton>
     </LinearLayout>
 
     <FrameLayout
