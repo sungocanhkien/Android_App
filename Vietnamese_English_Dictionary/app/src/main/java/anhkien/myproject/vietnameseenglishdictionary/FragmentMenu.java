@@ -57,9 +57,15 @@ public class FragmentMenu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
-        resultText = view.findViewById(R.id.txtResult);
+        TextView txtWord = view.findViewById(R.id.txtWord);
+        TextView txtPhonetic = view.findViewById(R.id.txtPhonetic);
+        TextView txtType = view.findViewById(R.id.txtType);
+        TextView txtMeaning = view.findViewById(R.id.txtMeaning);
+        TextView txtExample = view.findViewById(R.id.txtExample);
+        //resultText = view.findViewById(R.id.txtResult);
+
         dictionaryRepository = new DictionaryRepository();
-        resultText.setText(currentTab.equals("home")? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
+        resultText.setText(currentTab.equals("home") ? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
 
         if (currentTab.equals("home") && !searchKeyword.isEmpty()) {
             dictionaryRepository.searchWord(searchKeyword, new DictionaryRepository.DictionaryCallback() {
@@ -83,6 +89,14 @@ public class FragmentMenu extends Fragment {
                         }
                     }
                     resultText.setText(builder.toString());
+                    txtWord.setText("Từ: " + wordResponse.getWord());
+                    txtPhonetic.setText("Phát âm: " + wordResponse.getPhonetic());
+                    txtType.setText("Loại từ: " + wordResponse.getMeanings().get(0).getPartOfSpeech());
+                    txtMeaning.setText("Nghĩa: " + wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition());
+
+                    String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
+                    txtExample.setText(example != null ? "Ví dụ: " + example : "Ví dụ: (không có)");
+
                 }
 
                 @Override
