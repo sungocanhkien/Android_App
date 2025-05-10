@@ -46,5 +46,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <!-- TextView hiển thị kết quả tìm kiếm hoặc thông báo lỗi -->
+        <TextView
+            android:id="@+id/txtResult"
+            android:text=""
+            android:textSize="16sp"
+            android:textColor="#FF0000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp" />
+
     </LinearLayout>
 </ScrollView>

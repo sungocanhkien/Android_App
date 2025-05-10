@@ -62,7 +62,7 @@ public class FragmentMenu extends Fragment {
         TextView txtType = view.findViewById(R.id.txtType);
         TextView txtMeaning = view.findViewById(R.id.txtMeaning);
         TextView txtExample = view.findViewById(R.id.txtExample);
-        //resultText = view.findViewById(R.id.txtResult);
+        resultText = view.findViewById(R.id.txtResult);
 
         dictionaryRepository = new DictionaryRepository();
         resultText.setText(currentTab.equals("home") ? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
