@@ -25,6 +25,7 @@ public class FragmentMenu extends Fragment {
     private TextToSpeech tts;
     private DictionaryRepository dictionaryRepository;
     private TextView resultText;
+    private TextToSpeech textToSpeech;
 
 
 
