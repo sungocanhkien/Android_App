@@ -8,6 +8,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,7 +23,6 @@ public class FragmentMenu extends Fragment {
     private String currentTab = "home";
     private String searchKeyword = "";
     private boolean isEngLishToVietnamese = true;
-    private TextToSpeech tts;
     private DictionaryRepository dictionaryRepository;
     private TextView resultText;
     private TextToSpeech textToSpeech;
@@ -105,7 +105,30 @@ public class FragmentMenu extends Fragment {
                     resultText.setText("Lỗi: " + message);
                 }
             });
+            textToSpeech = new TextToSpeech(getContext(), status -> {
+                if (status == TextToSpeech.SUCCESS) {
+                    textToSpeech.setLanguage(Locale.UK);
+                }
+            });
+
+            ImageButton btnPlayAudio = view.findViewById(R.id.btnPlayAudio);
+            btnPlayAudio.setOnClickListener(v -> {
+                String wordToSpeak = txtWord.getText().toString().replace("Từ: ", "").trim();
+                if (!wordToSpeak.isEmpty()) {
+                    textToSpeech.speak(wordToSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
+                }
+            });
+
         }
         return view;
     }
+    @Override
+    public void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
+    }
+
 }
