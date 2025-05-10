@@ -18,6 +18,8 @@ import anhkien.myproject.vietnameseenglishdictionary.api.ApiClient;
 import anhkien.myproject.vietnameseenglishdictionary.api.DictionaryApi;
 import anhkien.myproject.vietnameseenglishdictionary.model.WordResponse;
 import retrofit2.Call;
+import anhkien.myproject.vietnameseenglishdictionary.database.FavoriteRepository;
+
 
 public class FragmentMenu extends Fragment {
     private String currentTab = "home";
@@ -26,6 +28,8 @@ public class FragmentMenu extends Fragment {
     private DictionaryRepository dictionaryRepository;
     private TextView resultText;
     private TextToSpeech textToSpeech;
+    private FavoriteRepository favoriteRepository;
+
 
 
 
@@ -98,6 +102,23 @@ public class FragmentMenu extends Fragment {
                     String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
                     txtExample.setText(example != null ? "Ví dụ: " + example : "Ví dụ: (không có)");
 
+                    favoriteRepository = new FavoriteRepository(getContext());
+                    ImageButton btnFavorite = view.findViewById(R.id.btnFavorite);
+                    String word = wordResponse.getWord();
+                    btnFavorite.setImageResource(
+                            favoriteRepository.isFavorite(word) ?
+                                    android.R.drawable.btn_star_big_on :
+                                    android.R.drawable.btn_star
+                    );
+                    btnFavorite.setOnClickListener(v -> {
+                        if (favoriteRepository.isFavorite(word)) {
+                            favoriteRepository.removeFavorite(word);
+                            btnFavorite.setImageResource(android.R.drawable.btn_star);
+                        } else {
+                            favoriteRepository.addFavorite(word);
+                            btnFavorite.setImageResource(android.R.drawable.btn_star_big_on);
+                        }
+                    });
                 }
 
                 @Override
@@ -118,6 +139,7 @@ public class FragmentMenu extends Fragment {
                     textToSpeech.speak(wordToSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
                 }
             });
+
 
         }
         return view;
