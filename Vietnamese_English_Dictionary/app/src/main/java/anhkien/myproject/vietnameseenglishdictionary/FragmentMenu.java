@@ -147,6 +147,15 @@ public class FragmentMenu extends Fragment {
 
         }
         else if (currentTab.equals("favorite")) {
+            favoriteRepository = new FavoriteRepository(getContext());
+            txtWord.setVisibility(View.GONE);
+            txtPhonetic.setVisibility(View.GONE);
+            txtType.setVisibility(View.GONE);
+            txtMeaning.setVisibility(View.GONE);
+            txtExample.setVisibility(View.GONE);
+            view.findViewById(R.id.btnFavorite).setVisibility(View.GONE);
+            view.findViewById(R.id.btnPlayAudio).setVisibility(View.GONE);
+
             listFavorite.setVisibility(View.VISIBLE);
 
             List<String> favoriteWords = favoriteRepository.getAllFavorites();
