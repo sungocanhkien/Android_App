@@ -8,7 +8,9 @@ import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -68,6 +70,8 @@ public class FragmentMenu extends Fragment {
         TextView txtMeaning = view.findViewById(R.id.txtMeaning);
         TextView txtExample = view.findViewById(R.id.txtExample);
         resultText = view.findViewById(R.id.txtResult);
+        ListView listFavorite = view.findViewById(R.id.listFavorite);
+
 
         dictionaryRepository = new DictionaryRepository();
         resultText.setText(currentTab.equals("home") ? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
@@ -142,6 +146,39 @@ public class FragmentMenu extends Fragment {
 
 
         }
+        else if (currentTab.equals("favorite")) {
+            listFavorite.setVisibility(View.VISIBLE);
+
+            List<String> favoriteWords = favoriteRepository.getAllFavorites();
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    getContext(),
+                    R.layout.item_favorite,
+                    R.id.txtFavoriteWord,
+                    favoriteWords
+            );
+            listFavorite.setAdapter(adapter);
+
+            listFavorite.setOnItemClickListener((parent, view1, position, id) -> {
+                String selectedWord = favoriteWords.get(position);
+                dictionaryRepository.searchWord(selectedWord, new DictionaryRepository.DictionaryCallback() {
+                    @Override
+                    public void onSuccess(WordResponse wordResponse) {
+                        txtWord.setText("Từ: " + wordResponse.getWord());
+                        txtPhonetic.setText("Phát âm: " + wordResponse.getPhonetic());
+                        txtType.setText("Loại từ: " + wordResponse.getMeanings().get(0).getPartOfSpeech());
+                        txtMeaning.setText("Nghĩa: " + wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition());
+                        String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
+                        txtExample.setText(example != null ? "Ví dụ: " + example : "Ví dụ: (không có)");
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        resultText.setText("Lỗi: " + message);
+                    }
+                });
+            });
+        }
+
         return view;
     }
     @Override
