@@ -79,4 +79,12 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+    <ListView
+        android:id="@+id/listFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
+
 </ScrollView>
