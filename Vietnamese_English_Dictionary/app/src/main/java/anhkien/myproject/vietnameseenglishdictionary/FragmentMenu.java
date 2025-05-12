@@ -76,35 +76,54 @@ public class FragmentMenu extends Fragment {
         dictionaryRepository = new DictionaryRepository();
         resultText.setText(currentTab.equals("home") ? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
 
+        // Khi không có kết quả
+        txtWord.setText("");
+        txtPhonetic.setText("");
+        txtMeaning.setText("");
+        txtExample.setText("");
+        txtType.setText("");
+        resultText.setVisibility(View.VISIBLE); // Hiển thị TextView lỗi
+        resultText.setText("Không tìm thấy nghĩa của từ.");
+
         if (currentTab.equals("home") && !searchKeyword.isEmpty()) {
             dictionaryRepository.searchWord(searchKeyword, new DictionaryRepository.DictionaryCallback() {
                 @Override
                 public void onSuccess(WordResponse wordResponse) {
+                    if (wordResponse.getMeanings() == null ||
+                            wordResponse.getMeanings().isEmpty() ||
+                            wordResponse.getMeanings().get(0).getDefinitions() == null ||
+                            wordResponse.getMeanings().get(0).getDefinitions().isEmpty()) {
+
+                        resultText.setText("Không tìm thấy nghĩa của từ.");
+                        txtWord.setText("");
+                        txtPhonetic.setText("");
+                        txtType.setText("");
+                        txtMeaning.setText("");
+                        txtExample.setText("");
+                        return;
+                    }
+
                     StringBuilder builder = new StringBuilder();
                     builder.append("Từ: ").append(wordResponse.getWord()).append("\n\n");
-                    if (!wordResponse.getMeanings().isEmpty()) {
-                        builder.append("Loại từ: ")
-                                .append(wordResponse.getMeanings().get(0).getPartOfSpeech()).append("\n");
+                    builder.append("Loại từ: ")
+                            .append(wordResponse.getMeanings().get(0).getPartOfSpeech()).append("\n");
 
-                        if (!wordResponse.getMeanings().get(0).getDefinitions().isEmpty()) {
-                            builder.append("Nghĩa: ")
-                                    .append(wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition())
-                                    .append("\n");
+                    builder.append("Nghĩa: ")
+                            .append(wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition())
+                            .append("\n");
 
-                            String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
-                            if (example != null) {
-                                builder.append("Ví dụ: ").append(example);
-                            }
-                        }
+                    String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
+                    if (example != null) {
+                        builder.append("Ví dụ: ").append(example);
                     }
+
                     resultText.setText(builder.toString());
                     txtWord.setText("Từ: " + wordResponse.getWord());
                     txtPhonetic.setText("Phát âm: " + wordResponse.getPhonetic());
                     txtType.setText("Loại từ: " + wordResponse.getMeanings().get(0).getPartOfSpeech());
                     txtMeaning.setText("Nghĩa: " + wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition());
-
-                    String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
                     txtExample.setText(example != null ? "Ví dụ: " + example : "Ví dụ: (không có)");
+
 
                     favoriteRepository = new FavoriteRepository(getContext());
                     ImageButton btnFavorite = view.findViewById(R.id.btnFavorite);

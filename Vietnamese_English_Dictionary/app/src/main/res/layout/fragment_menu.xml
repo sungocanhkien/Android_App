@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,6 +11,17 @@
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txtResult_Fail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="16sp"
+            android:paddingTop="16dp"
+            android:visibility="gone"
+            android:text="Không tìm thấy nghĩa của từ."
+            tools:ignore="DuplicateIds" />
+
 
         <!-- TextView hiển thị kết quả tìm kiếm hoặc thông báo lỗi -->
         <TextView

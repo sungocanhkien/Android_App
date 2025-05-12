@@ -25,7 +25,14 @@ public class DictionaryRepository {
             @Override
             public void onResponse(Call<List<WordResponse>> call, Response<List<WordResponse>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    callback.onSuccess(response.body().get(0));
+                    WordResponse wordResponse = response.body().get(0);
+
+                    if (!wordResponse.getMeanings().isEmpty() &&
+                            !wordResponse.getMeanings().get(0).getDefinitions().isEmpty()) {
+                        callback.onSuccess(wordResponse);
+                    } else {
+                        callback.onFailure("Không tìm thấy nghĩa của từ.");
+                    }
                 } else {
                     callback.onFailure("Không tìm thấy từ phù hợp.");
                 }
