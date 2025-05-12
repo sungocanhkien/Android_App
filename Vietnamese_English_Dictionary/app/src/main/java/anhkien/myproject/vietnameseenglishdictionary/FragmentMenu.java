@@ -72,18 +72,9 @@ public class FragmentMenu extends Fragment {
         resultText = view.findViewById(R.id.txtResult);
         ListView listFavorite = view.findViewById(R.id.listFavorite);
 
-
         dictionaryRepository = new DictionaryRepository();
         resultText.setText(currentTab.equals("home") ? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
 
-        // Khi không có kết quả
-        txtWord.setText("");
-        txtPhonetic.setText("");
-        txtMeaning.setText("");
-        txtExample.setText("");
-        txtType.setText("");
-        resultText.setVisibility(View.VISIBLE); // Hiển thị TextView lỗi
-        resultText.setText("Không tìm thấy nghĩa của từ.");
 
         if (currentTab.equals("home") && !searchKeyword.isEmpty()) {
             dictionaryRepository.searchWord(searchKeyword, new DictionaryRepository.DictionaryCallback() {
@@ -100,6 +91,7 @@ public class FragmentMenu extends Fragment {
                         txtType.setText("");
                         txtMeaning.setText("");
                         txtExample.setText("");
+                        resultText.setVisibility(View.VISIBLE);
                         return;
                     }
 
@@ -147,6 +139,7 @@ public class FragmentMenu extends Fragment {
                 @Override
                 public void onFailure(String message) {
                     resultText.setText("Lỗi: " + message);
+                    resultText.setVisibility(View.VISIBLE);
                 }
             });
             textToSpeech = new TextToSpeech(getContext(), status -> {
