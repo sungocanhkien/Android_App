@@ -69,6 +69,8 @@ public class FragmentMenu extends Fragment {
         TextView txtType = view.findViewById(R.id.txtType);
         TextView txtMeaning = view.findViewById(R.id.txtMeaning);
         TextView txtExample = view.findViewById(R.id.txtExample);
+        TextView txtError = view.findViewById(R.id.txtError);
+
         resultText = view.findViewById(R.id.txtResult);
         ListView listFavorite = view.findViewById(R.id.listFavorite);
 
@@ -126,6 +128,12 @@ public class FragmentMenu extends Fragment {
                                     android.R.drawable.btn_star
                     );
                     btnFavorite.setOnClickListener(v -> {
+                        txtWord.setVisibility(View.GONE);
+                        txtPhonetic.setVisibility(View.GONE);
+                        txtType.setVisibility(View.GONE);
+                        txtMeaning.setVisibility(View.GONE);
+                        txtExample.setVisibility(View.GONE);
+
                         if (favoriteRepository.isFavorite(word)) {
                             favoriteRepository.removeFavorite(word);
                             btnFavorite.setImageResource(android.R.drawable.btn_star);
@@ -138,8 +146,15 @@ public class FragmentMenu extends Fragment {
 
                 @Override
                 public void onFailure(String message) {
-                    resultText.setText("Lỗi: " + message);
-                    resultText.setVisibility(View.VISIBLE);
+                    resultText.setText("");
+                    txtWord.setText("");
+                    txtPhonetic.setText("");
+                    txtType.setText("");
+                    txtMeaning.setText("");
+                    txtExample.setText("");
+
+                    txtError.setText("Lỗi: " + message);
+                    txtError.setVisibility(View.VISIBLE);
                 }
             });
             textToSpeech = new TextToSpeech(getContext(), status -> {
@@ -160,11 +175,12 @@ public class FragmentMenu extends Fragment {
         }
         else if (currentTab.equals("favorite")) {
             favoriteRepository = new FavoriteRepository(getContext());
-            txtWord.setVisibility(View.GONE);
-            txtPhonetic.setVisibility(View.GONE);
-            txtType.setVisibility(View.GONE);
-            txtMeaning.setVisibility(View.GONE);
-            txtExample.setVisibility(View.GONE);
+            txtWord.setVisibility(View.VISIBLE);
+            txtPhonetic.setVisibility(View.VISIBLE);
+            txtType.setVisibility(View.VISIBLE);
+            txtMeaning.setVisibility(View.VISIBLE);
+            txtExample.setVisibility(View.VISIBLE);
+
             view.findViewById(R.id.btnFavorite).setVisibility(View.GONE);
             view.findViewById(R.id.btnPlayAudio).setVisibility(View.GONE);
 
