@@ -64,6 +64,7 @@ public class FragmentMenu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
+
         TextView txtWord = view.findViewById(R.id.txtWord);
         TextView txtPhonetic = view.findViewById(R.id.txtPhonetic);
         TextView txtType = view.findViewById(R.id.txtType);
@@ -73,12 +74,19 @@ public class FragmentMenu extends Fragment {
 
         resultText = view.findViewById(R.id.txtResult);
         ListView listFavorite = view.findViewById(R.id.listFavorite);
+        View layoutWordDetails = view.findViewById(R.id.layoutWordDetails);
 
         dictionaryRepository = new DictionaryRepository();
-        resultText.setText(currentTab.equals("home") ? "Hiển thị kết quả tìm kiếm cho: " + searchKeyword : "Danh sách từ yêu thích");
+        favoriteRepository = new FavoriteRepository(getContext());
+
+        resultText.setText(currentTab.equals("home"))
+                ? "Hiển thị kết quả tìm kếm cho: " + searchKeyword
+                : "Danh sách từ yêu thích");
 
 
         if (currentTab.equals("home") && !searchKeyword.isEmpty()) {
+            layoutWordDetails.setVisibility(View.VISIBLE);
+            listFavorite.setVisibility(View.GONE);
             dictionaryRepository.searchWord(searchKeyword, new DictionaryRepository.DictionaryCallback() {
                 @Override
                 public void onSuccess(WordResponse wordResponse) {
@@ -88,14 +96,20 @@ public class FragmentMenu extends Fragment {
                             wordResponse.getMeanings().get(0).getDefinitions().isEmpty()) {
 
                         resultText.setText("Không tìm thấy nghĩa của từ.");
-                        txtWord.setText("");
-                        txtPhonetic.setText("");
-                        txtType.setText("");
-                        txtMeaning.setText("");
-                        txtExample.setText("");
-                        resultText.setVisibility(View.VISIBLE);
+                        layoutWordDetails.setVisibility(View.GONE);
                         return;
                     }
+
+                    String word = wordResponse.getWord();
+                    String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
+
+                    txtWord.setText("Từ: " + word);
+                    txtPhonetic.setText("Phát âm: " + wordResponse.getPhonetic());
+                    txtType.setText("Loại từ: " + wordResponse.getMeanings().get(0).getPartOfSpeech());
+                    txtMeaning.setText("Nghĩa: " + wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition());
+                    txtExample.setText(example != null ? "Ví dụ: " + example : "Ví dụ: (không có)");
+
+                    layoutWordDetails.setVisibility(View.VISIBLE);
 
                     StringBuilder builder = new StringBuilder();
                     builder.append("Từ: ").append(wordResponse.getWord()).append("\n\n");
