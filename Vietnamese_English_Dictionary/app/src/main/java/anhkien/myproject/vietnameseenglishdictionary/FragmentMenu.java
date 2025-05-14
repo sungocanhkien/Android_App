@@ -124,14 +124,7 @@ public class FragmentMenu extends Fragment {
                     if (example != null) {
                         builder.append("Ví dụ: ").append(example);
                     }
-
-                    resultText.setText(builder.toString());
-                    txtWord.setText("Từ: " + wordResponse.getWord());
-                    txtPhonetic.setText("Phát âm: " + wordResponse.getPhonetic());
-                    txtType.setText("Loại từ: " + wordResponse.getMeanings().get(0).getPartOfSpeech());
-                    txtMeaning.setText("Nghĩa: " + wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition());
-                    txtExample.setText(example != null ? "Ví dụ: " + example : "Ví dụ: (không có)");
-
+                    
 
                     favoriteRepository = new FavoriteRepository(getContext());
                     ImageButton btnFavorite = view.findViewById(R.id.btnFavorite);
