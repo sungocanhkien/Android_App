@@ -117,16 +117,17 @@ public class FragmentMenu extends Fragment {
                     buttonFavorite.setVisibility(View.VISIBLE);
                     buttonFavorite.setImageResource(favoriteRepository.isFavorite(word)? android.R.drawable.btn_star_big_on
                             : android.R.drawable.btn_star);
-                    buttonFavorite.setOnClickListener();
+                    buttonFavorite.setOnClickListener(v -> {
+                        if (favoriteRepository.isFavorite(word)){
+                            favoriteRepository.removeFavorite(word);
+                            buttonFavorite.setImageResource(android.R.drawable.btn_star);
+                        } else {
+                            favoriteRepository.addFavorite(word);
+                            buttonFavorite.setImageResource(android.R.drawable.btn_star_big_on);
+                        }
+                    });
 
-                    favoriteRepository = new FavoriteRepository(getContext());
-                    ImageButton btnFavorite = view.findViewById(R.id.btnFavorite);
-                    String word = wordResponse.getWord();
-                    btnFavorite.setImageResource(
-                            favoriteRepository.isFavorite(word) ?
-                                    android.R.drawable.btn_star_big_on :
-                                    android.R.drawable.btn_star
-                    );
+
                     btnFavorite.setOnClickListener(v -> {
                         txtWord.setVisibility(View.GONE);
                         txtPhonetic.setVisibility(View.GONE);
