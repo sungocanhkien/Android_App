@@ -6,21 +6,15 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
+    <!-- TextView hiển thị kết quả tìm kiếm hoặc thông báo lỗi -->
+    <TextView
+        android:id="@+id/txtResult"
+        android:text=""
+        android:textSize="16sp"
+        android:textColor="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!-- TextView hiển thị kết quả tìm kiếm hoặc thông báo lỗi -->
-        <TextView
-            android:id="@+id/txtResult"
-            android:text=""
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp" />
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp" />
 
         <TextView
             android:id="@+id/txtWord"
@@ -29,11 +23,7 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+
             <TextView
                 android:id="@+id/txtPhonetic"
                 android:text="Phát âm: "
@@ -58,7 +48,7 @@
                 android:contentDescription="Yêu thích"
                 android:layout_marginTop="6dp"/>
 
-        </LinearLayout>
+    
 
         <TextView
             android:id="@+id/txtType"
