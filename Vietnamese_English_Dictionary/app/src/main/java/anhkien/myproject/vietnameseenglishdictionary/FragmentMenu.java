@@ -111,20 +111,13 @@ public class FragmentMenu extends Fragment {
 
                     layoutWordDetails.setVisibility(View.VISIBLE);
 
-                    StringBuilder builder = new StringBuilder();
-                    builder.append("Từ: ").append(wordResponse.getWord()).append("\n\n");
-                    builder.append("Loại từ: ")
-                            .append(wordResponse.getMeanings().get(0).getPartOfSpeech()).append("\n");
 
-                    builder.append("Nghĩa: ")
-                            .append(wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition())
-                            .append("\n");
-
-                    String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
-                    if (example != null) {
-                        builder.append("Ví dụ: ").append(example);
-                    }
-                    
+                    //Favorite button xử lý
+                    ImageButton buttonFavorite = view.findViewById(R.id.btnFavorite);
+                    buttonFavorite.setVisibility(View.VISIBLE);
+                    buttonFavorite.setImageResource(favoriteRepository.isFavorite(word)? android.R.drawable.btn_star_big_on
+                            : android.R.drawable.btn_star);
+                    buttonFavorite.setOnClickListener();
 
                     favoriteRepository = new FavoriteRepository(getContext());
                     ImageButton btnFavorite = view.findViewById(R.id.btnFavorite);
