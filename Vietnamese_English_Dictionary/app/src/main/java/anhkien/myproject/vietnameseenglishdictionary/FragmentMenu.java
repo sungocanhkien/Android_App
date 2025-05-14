@@ -78,13 +78,7 @@ public class FragmentMenu extends Fragment {
 
         dictionaryRepository = new DictionaryRepository();
         favoriteRepository = new FavoriteRepository(getContext());
-
-        if (currentTab.equals("home")) {
-            resultText.setText("Hiển thị kết quả tìm kiếm cho: " + searchKeyword);
-        } else {
-            resultText.setText("Danh sách từ yêu thích");
-        }
-
+        
 
         if (currentTab.equals("home") && !searchKeyword.isEmpty()) {
             layoutWordDetails.setVisibility(View.VISIBLE);
