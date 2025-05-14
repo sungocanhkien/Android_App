@@ -92,15 +92,18 @@ public class FragmentMenu extends Fragment {
             dictionaryRepository.searchWord(searchKeyword, new DictionaryRepository.DictionaryCallback() {
                 @Override
                 public void onSuccess(WordResponse wordResponse) {
+                    //Nếu không có dữ liệu nghĩa -> thông báo lỗi.
                     if (wordResponse.getMeanings() == null ||
                             wordResponse.getMeanings().isEmpty() ||
                             wordResponse.getMeanings().get(0).getDefinitions() == null ||
                             wordResponse.getMeanings().get(0).getDefinitions().isEmpty()) {
 
-                        resultText.setText("Không tìm thấy nghĩa của từ.");
+                        resultText.setText("Không tìm thấy nghĩa của từ. Vui lòng thử lại từ khác.");
                         layoutWordDetails.setVisibility(View.GONE);
                         return;
                     }
+
+                    resultText.setText("");
 
                     String word = wordResponse.getWord();
                     String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
