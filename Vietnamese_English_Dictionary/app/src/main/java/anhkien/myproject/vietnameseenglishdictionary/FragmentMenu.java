@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -71,6 +72,14 @@ public class FragmentMenu extends Fragment {
         TextView txtMeaning = view.findViewById(R.id.txtMeaning);
         TextView txtExample = view.findViewById(R.id.txtExample);
         TextView txtError = view.findViewById(R.id.txtError);
+        EditText txtKeyword = getActivity().findViewById(R.id.edtTextSearch);
+        String searchKeyword = txtKeyword.getText().toString();
+
+        // Nếu người dùng chưa nhập từ, hiển thị từ mặc định (ví dụ: "hello")
+        if (searchKeyword == null || searchKeyword.isEmpty()) {
+            searchKeyword = "hello"; // <-- từ mặc định
+            txtWord.setText(searchKeyword);
+        }
 
         resultText = view.findViewById(R.id.txtResult);
         ListView listFavorite = view.findViewById(R.id.listFavorite);
@@ -78,9 +87,9 @@ public class FragmentMenu extends Fragment {
 
         dictionaryRepository = new DictionaryRepository();
         favoriteRepository = new FavoriteRepository(getContext());
-        
 
-        if (currentTab.equals("home") && !searchKeyword.isEmpty()) {
+
+        if (currentTab.equals("home")) {
             layoutWordDetails.setVisibility(View.VISIBLE);
             listFavorite.setVisibility(View.GONE);
             dictionaryRepository.searchWord(searchKeyword, new DictionaryRepository.DictionaryCallback() {

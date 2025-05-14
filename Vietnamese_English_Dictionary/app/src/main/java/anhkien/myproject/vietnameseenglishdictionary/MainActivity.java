@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(FragmentMenu.newInstance("home", keyword, isEnglishToVietnamese));
             }
         });
-        
-        
+        // Hiển thị mặc định Fragment "home" với từ khóa mặc định "hello"
+        loadFragment(FragmentMenu.newInstance("home", "hello", true));
+
     }
 
     private void loadFragment(FragmentMenu fragmentMenu) {
