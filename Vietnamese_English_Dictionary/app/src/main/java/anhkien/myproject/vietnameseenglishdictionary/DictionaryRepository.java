@@ -34,7 +34,7 @@ public class DictionaryRepository {
                         callback.onFailure("Không tìm thấy nghĩa của từ.");
                     }
                 } else {
-                    callback.onFailure("Không tìm thấy từ phù hợp.");
+                    callback.onFailure("Không tìm thấy từ phù hợp. Hãy nhập lại một từ khác!");
                 }
             }
 
