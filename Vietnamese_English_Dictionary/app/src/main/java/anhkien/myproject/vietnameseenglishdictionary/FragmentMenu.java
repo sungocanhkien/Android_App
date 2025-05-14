@@ -127,20 +127,19 @@ public class FragmentMenu extends Fragment {
                         }
                     });
 
+                    //TextToSpeech
+                    textToSpeech = new TextToSpeech(getContext(), status -> {
+                        if (status == TextToSpeech.SUCCESS){
+                            textToSpeech.setLanguage(Locale.UK);
+                        }
+                    });
 
-                    btnFavorite.setOnClickListener(v -> {
-                        txtWord.setVisibility(View.GONE);
-                        txtPhonetic.setVisibility(View.GONE);
-                        txtType.setVisibility(View.GONE);
-                        txtMeaning.setVisibility(View.GONE);
-                        txtExample.setVisibility(View.GONE);
-
-                        if (favoriteRepository.isFavorite(word)) {
-                            favoriteRepository.removeFavorite(word);
-                            btnFavorite.setImageResource(android.R.drawable.btn_star);
-                        } else {
-                            favoriteRepository.addFavorite(word);
-                            btnFavorite.setImageResource(android.R.drawable.btn_star_big_on);
+                    ImageButton buttonPlayAudio = view.findViewById(R.id.btnPlayAudio);
+                    buttonPlayAudio.setVisibility(View.VISIBLE);
+                    buttonPlayAudio.setOnClickListener(v -> {
+                        String wordToSpeak = txtWord.getText().toString().replace("Từ: ", "").trim();
+                        if (!wordToSpeak.isEmpty()){
+                            textToSpeech.speak(wordToSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
                         }
                     });
                 }
