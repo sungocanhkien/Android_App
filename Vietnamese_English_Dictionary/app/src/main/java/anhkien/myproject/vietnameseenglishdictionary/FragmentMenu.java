@@ -79,9 +79,11 @@ public class FragmentMenu extends Fragment {
         dictionaryRepository = new DictionaryRepository();
         favoriteRepository = new FavoriteRepository(getContext());
 
-        resultText.setText(currentTab.equals("home"))
-                ? "Hiển thị kết quả tìm kếm cho: " + searchKeyword
-                : "Danh sách từ yêu thích");
+        if (currentTab.equals("home")) {
+            resultText.setText("Hiển thị kết quả tìm kiếm cho: " + searchKeyword);
+        } else {
+            resultText.setText("Danh sách từ yêu thích");
+        }
 
 
         if (currentTab.equals("home") && !searchKeyword.isEmpty()) {
@@ -146,47 +148,27 @@ public class FragmentMenu extends Fragment {
 
                 @Override
                 public void onFailure(String message) {
-                    resultText.setText("");
-                    txtWord.setText("");
-                    txtPhonetic.setText("");
-                    txtType.setText("");
-                    txtMeaning.setText("");
-                    txtExample.setText("");
-
-                    txtError.setText("Lỗi: " + message);
-                    txtError.setVisibility(View.VISIBLE);
+                    layoutWordDetails.setVisibility(View.GONE);
+                    resultText.setText("Lỗi: " + message);
+                    resultText.setVisibility(View.VISIBLE);
                 }
             });
-            textToSpeech = new TextToSpeech(getContext(), status -> {
-                if (status == TextToSpeech.SUCCESS) {
-                    textToSpeech.setLanguage(Locale.UK);
-                }
-            });
-
-            ImageButton btnPlayAudio = view.findViewById(R.id.btnPlayAudio);
-            btnPlayAudio.setOnClickListener(v -> {
-                String wordToSpeak = txtWord.getText().toString().replace("Từ: ", "").trim();
-                if (!wordToSpeak.isEmpty()) {
-                    textToSpeech.speak(wordToSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
-                }
-            });
-
-
         }
         else if (currentTab.equals("favorite")) {
-            favoriteRepository = new FavoriteRepository(getContext());
-            txtWord.setVisibility(View.VISIBLE);
-            txtPhonetic.setVisibility(View.VISIBLE);
-            txtType.setVisibility(View.VISIBLE);
-            txtMeaning.setVisibility(View.VISIBLE);
-            txtExample.setVisibility(View.VISIBLE);
-
+            layoutWordDetails.setVisibility(View.GONE);
+            listFavorite.setVisibility(View.VISIBLE);
             view.findViewById(R.id.btnFavorite).setVisibility(View.GONE);
             view.findViewById(R.id.btnPlayAudio).setVisibility(View.GONE);
 
             listFavorite.setVisibility(View.VISIBLE);
 
             List<String> favoriteWords = favoriteRepository.getAllFavorites();
+            if (favoriteWords.isEmpty()){
+                resultText.setText("Danh sách yêu thích trống.");
+                resultText.setVisibility(View.VISIBLE);
+            } else {
+                resultText.setVisibility(View.GONE);
+            }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     getContext(),
                     R.layout.item_favorite,
@@ -210,6 +192,7 @@ public class FragmentMenu extends Fragment {
 
                     @Override
                     public void onFailure(String message) {
+                        layoutWordDetails.setVisibility(View.GONE);
                         resultText.setText("Lỗi: " + message);
                     }
                 });
