@@ -15,7 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutWordDetails"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:visibility="gone">
         <TextView
             android:id="@+id/txtWord"
             android:text="Từ: "
@@ -23,6 +29,11 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/txtPhonetic"
@@ -47,8 +58,7 @@
                 android:src="@android:drawable/btn_star"
                 android:contentDescription="Yêu thích"
                 android:layout_marginTop="6dp"/>
-
-    
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtType"
@@ -70,17 +80,17 @@
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/txtError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="16sp"
-            android:visibility="gone"
-            android:layout_gravity="center"
-            android:text="Lỗi tìm kiếm" />
-
     </LinearLayout>
+    <TextView
+        android:id="@+id/txtError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:text="Lỗi tìm kiếm" />
+
     <ListView
         android:id="@+id/listFavorite"
         android:layout_width="match_parent"
@@ -88,5 +98,4 @@
         android:visibility="gone"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
-
 </LinearLayout>
