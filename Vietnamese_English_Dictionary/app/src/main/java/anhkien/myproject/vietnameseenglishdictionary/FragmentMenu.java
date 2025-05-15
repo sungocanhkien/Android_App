@@ -3,6 +3,8 @@ package anhkien.myproject.vietnameseenglishdictionary;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
@@ -161,6 +163,7 @@ public class FragmentMenu extends Fragment {
             });
         }
         else if (currentTab.equals("favorite")) {
+            RecyclerView recyclerViewFavorite = view.findViewById(R.id.listFavorite);
             layoutWordDetails.setVisibility(View.GONE);
             listFavorite.setVisibility(View.VISIBLE);
             view.findViewById(R.id.btnFavorite).setVisibility(View.GONE);
@@ -168,19 +171,15 @@ public class FragmentMenu extends Fragment {
 
             listFavorite.setVisibility(View.VISIBLE);
 
-            List<String> favoriteWords = favoriteRepository.getAllFavorites();
-            if (favoriteWords.isEmpty()){
+            List<FavoriteWord> favoriteWords = favoriteRepository.getAllFavorites(); // Giả sử bạn có hàm này
+            if (favoriteWords.isEmpty()) {
                 resultText.setText("Danh sách yêu thích trống.");
                 resultText.setVisibility(View.VISIBLE);
             } else {
                 resultText.setVisibility(View.GONE);
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                    getContext(),
-                    R.layout.item_favorite,
-                    R.id.txtFavoriteWord,
-                    favoriteWords
-            );
+            listFavorite.setLayoutManager(new LinearLayoutManager(getContext()));
+            FavoriteAdapter adapter = new FavoriteAdapter(getContext(), favoriteWords);
             listFavorite.setAdapter(adapter);
 
             listFavorite.setOnItemClickListener((parent, view1, position, id) -> {

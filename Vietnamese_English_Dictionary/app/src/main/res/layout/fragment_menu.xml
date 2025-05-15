@@ -92,11 +92,11 @@
         android:layout_gravity="center"
         android:text="Lỗi tìm kiếm" />
 
-    <ListView
-        android:id="@+id/listFavorite"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/listFavorite"
         android:visibility="gone"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp" />
+        android:layout_marginTop="5dp"></androidx.recyclerview.widget.RecyclerView>
+
 </LinearLayout>

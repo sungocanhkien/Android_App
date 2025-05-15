@@ -33,7 +33,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvWord = itemView.findViewById(R.id.txtFavoriteWord);
+            tvWord = itemView.findViewById(R.id.tvWord);
             tvPhonetic = itemView.findViewById(R.id.tvPhonetic);
             tvType = itemView.findViewById(R.id.tvType);
             tvMeaning = itemView.findViewById(R.id.tvMeaning);
