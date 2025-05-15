@@ -84,7 +84,7 @@ public class FragmentMenu extends Fragment {
         }
 
         resultText = view.findViewById(R.id.txtResult);
-        ListView listFavorite = view.findViewById(R.id.listFavorite);
+        RecyclerView listFavorite = view.findViewById(R.id.listFavorite);
         View layoutWordDetails = view.findViewById(R.id.layoutWordDetails);
 
         dictionaryRepository = new DictionaryRepository();
@@ -163,7 +163,7 @@ public class FragmentMenu extends Fragment {
             });
         }
         else if (currentTab.equals("favorite")) {
-            RecyclerView recyclerViewFavorite = view.findViewById(R.id.listFavorite);
+            RecyclerView listFavorite = view.findViewById(R.id.listFavorite);
             layoutWordDetails.setVisibility(View.GONE);
             listFavorite.setVisibility(View.VISIBLE);
             view.findViewById(R.id.btnFavorite).setVisibility(View.GONE);
@@ -171,7 +171,7 @@ public class FragmentMenu extends Fragment {
 
             listFavorite.setVisibility(View.VISIBLE);
 
-            List<FavoriteWord> favoriteWords = favoriteRepository.getAllFavorites(); // Giả sử bạn có hàm này
+            List<FavoriteWord> favoriteWords = favoriteRepository.getAllFavorites();
             if (favoriteWords.isEmpty()) {
                 resultText.setText("Danh sách yêu thích trống.");
                 resultText.setVisibility(View.VISIBLE);
@@ -181,10 +181,8 @@ public class FragmentMenu extends Fragment {
             listFavorite.setLayoutManager(new LinearLayoutManager(getContext()));
             FavoriteAdapter adapter = new FavoriteAdapter(getContext(), favoriteWords);
             listFavorite.setAdapter(adapter);
-
-            listFavorite.setOnItemClickListener((parent, view1, position, id) -> {
-                String selectedWord = favoriteWords.get(position);
-                dictionaryRepository.searchWord(selectedWord, new DictionaryRepository.DictionaryCallback() {
+            adapter.setOnItemClickListener(word -> {
+                dictionaryRepository.searchWord(word.getWord(), new DictionaryRepository.DictionaryCallback() {
                     @Override
                     public void onSuccess(WordResponse wordResponse) {
                         txtWord.setText("Từ: " + wordResponse.getWord());
@@ -202,6 +200,8 @@ public class FragmentMenu extends Fragment {
                     }
                 });
             });
+            listFavorite.setAdapter(adapter);
+
         }
 
         return view;
