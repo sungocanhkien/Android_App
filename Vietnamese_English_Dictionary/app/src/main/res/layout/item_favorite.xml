@@ -15,25 +15,39 @@
         android:textStyle="bold"
         tools:ignore="MissingConstraints"></TextView>
     <LinearLayout
+        android:id="@+id/layoutDetails"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layoutWordDetails"
-        android:orientation="vertical"
         android:visibility="gone"
         android:paddingTop="8dp">
-        <TextView
-            android:id="@+id/tvMeaning"
+
+        <TextView android:id="@+id/tvPhonetic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Meaning"
-            android:textSize="16sp" />
+            android:text="Phonetic" />
+
+        <TextView android:id="@+id/tvType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Type" />
+
+        <TextView android:id="@+id/tvMeaning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Meaning" />
+
+        <TextView android:id="@+id/tvExample"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Example" />
 
         <ImageButton
             android:id="@+id/btnPlayAudio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_media_play"
-            android:contentDescription="Play Audio"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:contentDescription="Play Audio" />
     </LinearLayout>
 </LinearLayout>
