@@ -163,7 +163,7 @@ public class FragmentMenu extends Fragment {
             });
         }
         else if (currentTab.equals("favorite")) {
-            RecyclerView listFavorite = view.findViewById(R.id.listFavorite);
+            listFavorite = view.findViewById(R.id.listFavorite);
             layoutWordDetails.setVisibility(View.GONE);
             listFavorite.setVisibility(View.VISIBLE);
             view.findViewById(R.id.btnFavorite).setVisibility(View.GONE);
