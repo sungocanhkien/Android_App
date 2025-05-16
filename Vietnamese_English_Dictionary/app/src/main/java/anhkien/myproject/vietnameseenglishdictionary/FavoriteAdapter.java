@@ -69,13 +69,17 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
 
         holder.btnPlayAudio.setOnClickListener(v -> {
             String audioUrl = word.getAudio();
-            MediaPlayer mediaPlayer = new MediaPlayer();
-            try {
-                mediaPlayer.setDataSource(audioUrl);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                Toast.makeText(context, "Không phát được âm thanh", Toast.LENGTH_SHORT).show();
+            if (audioUrl != null && !audioUrl.trim().isEmpty()){
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                try {
+                    mediaPlayer.setDataSource(audioUrl);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    Toast.makeText(context, "Không phát được âm thanh", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, "Không có dữ liệu âm thanh", Toast.LENGTH_SHORT).show();
             }
         });
     }

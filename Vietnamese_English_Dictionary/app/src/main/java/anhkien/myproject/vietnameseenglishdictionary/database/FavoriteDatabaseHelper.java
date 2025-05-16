@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class FavoriteDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "dictionary.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_NAME = "favorites";
     public static final String COLUMN_ID = "_id";
@@ -15,7 +15,11 @@ public class FavoriteDatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_WORD + " TEXT UNIQUE);";
+                    COLUMN_WORD + " TEXT UNIQUE, " + "phonetic TEXT, " +
+                    "type TEXT, " +
+                    "meaning TEXT, " +
+                    "example TEXT, " +
+                    "audio TEXT);";
 
     public FavoriteDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
