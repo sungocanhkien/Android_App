@@ -25,3 +25,4 @@ public class FavoriteWord {
     public String getExample() { return example; }
     public String getAudio() { return audio; }
 }
+
