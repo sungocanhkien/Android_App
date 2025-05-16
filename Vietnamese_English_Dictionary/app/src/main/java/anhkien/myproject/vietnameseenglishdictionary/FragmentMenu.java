@@ -128,14 +128,25 @@ public class FragmentMenu extends Fragment {
                     buttonFavorite.setImageResource(favoriteRepository.isFavorite(word)? android.R.drawable.btn_star_big_on
                             : android.R.drawable.btn_star);
                     buttonFavorite.setOnClickListener(v -> {
-                        if (favoriteRepository.isFavorite(word)){
+                        if (favoriteRepository.isFavorite(word)) {
                             favoriteRepository.removeFavorite(word);
                             buttonFavorite.setImageResource(android.R.drawable.btn_star);
                         } else {
-                            favoriteRepository.addFavorite(word);
+                            FavoriteWord favoriteWord = new FavoriteWord(
+                                    wordResponse.getWord(),
+                                    wordResponse.getPhonetic(),
+                                    wordResponse.getMeanings().get(0).getPartOfSpeech(),
+                                    wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition(),
+                                    wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample(),
+                                    wordResponse.getPhonetics() != null && !wordResponse.getPhonetics().isEmpty()
+                                            ? wordResponse.getPhonetics()
+                                            : ""
+                            );
+                            favoriteRepository.addFavorite(favoriteWord);
                             buttonFavorite.setImageResource(android.R.drawable.btn_star_big_on);
                         }
                     });
+
 
                     //TextToSpeech
                     textToSpeech = new TextToSpeech(getContext(), status -> {

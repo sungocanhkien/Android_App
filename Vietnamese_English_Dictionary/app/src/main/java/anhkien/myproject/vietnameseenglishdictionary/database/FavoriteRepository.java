@@ -19,10 +19,16 @@ public class FavoriteRepository {
         dbHelper = new FavoriteDatabaseHelper(context);
     }
 
-    public void addFavorite(String word) {
+    public void addFavorite(FavoriteWord word) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(FavoriteDatabaseHelper.COLUMN_WORD, word);
+        values.put("word", word.getWord());
+        values.put("phonetic", word.getPhonetic());
+        values.put("type", word.getType());
+        values.put("meaning", word.getMeaning());
+        values.put("example", word.getExample());
+        values.put("audio", word.getAudio());  // QUAN TRỌNG
+
         db.insertWithOnConflict(FavoriteDatabaseHelper.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
     }

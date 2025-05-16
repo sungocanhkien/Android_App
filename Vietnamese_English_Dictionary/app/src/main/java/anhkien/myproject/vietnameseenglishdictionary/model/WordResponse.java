@@ -7,6 +7,7 @@ public class WordResponse {
     public String phonetic;
     public List<Meaning> meanings;
 
+
     public String getWord() {
         return word;
     }
@@ -17,5 +18,9 @@ public class WordResponse {
 
     public List<Meaning> getMeanings() {
         return meanings;
+    }
+
+    public String getPhonetics() {
+        return phonetic;
     }
 }
