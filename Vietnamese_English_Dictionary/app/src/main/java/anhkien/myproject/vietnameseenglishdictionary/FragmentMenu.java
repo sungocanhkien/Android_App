@@ -34,6 +34,7 @@ public class FragmentMenu extends Fragment {
     private TextView resultText;
     private TextToSpeech textToSpeech;
     private FavoriteRepository favoriteRepository;
+    private FavoriteAdapter favoriteAdapter;
 
 
 
@@ -194,7 +195,7 @@ public class FragmentMenu extends Fragment {
             }
             listFavorite.setLayoutManager(new LinearLayoutManager(getContext()));
             FavoriteAdapter adapter = new FavoriteAdapter(getContext(), favoriteWords);
-            listFavorite.setAdapter(adapter);
+            listFavorite.setAdapter(favoriteAdapter);
             adapter.setOnItemClickListener(word -> {
                 dictionaryRepository.searchWord(word.getWord(), new DictionaryRepository.DictionaryCallback() {
                     @Override
@@ -229,7 +230,14 @@ public class FragmentMenu extends Fragment {
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+
+        // 🔥 Thêm đoạn này
+        if (favoriteAdapter != null) {
+            favoriteAdapter.shutdownTextToSpeech();
+        }
+
         super.onDestroy();
     }
+
 
 }

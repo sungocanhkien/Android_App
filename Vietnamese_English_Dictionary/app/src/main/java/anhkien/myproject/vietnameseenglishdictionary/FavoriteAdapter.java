@@ -1,6 +1,7 @@
 package anhkien.myproject.vietnameseenglishdictionary;
 
 import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     private Context context;
     private List<FavoriteWord> favoriteWords;
     private OnItemClickListener listener;
+    private TextToSpeech textToSpeech;
 
+    public FavoriteAdapter(TextToSpeech textToSpeech) {
+        this.textToSpeech = textToSpeech;
+    }
 
     public interface OnItemClickListener {
         void onItemClick(FavoriteWord word);
@@ -39,14 +44,15 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     public static class FavoriteViewHolder extends RecyclerView.ViewHolder {
         TextView txtWord, txtPhonetic, txtMeaning;
         ImageView imgFavorite;
+        View btnPlayAudio;
 
         public FavoriteViewHolder(@NonNull View itemView) {
             super(itemView);
             txtWord = itemView.findViewById(R.id.tvWord);
             txtPhonetic = itemView.findViewById(R.id.tvPhonetic);
             txtMeaning = itemView.findViewById(R.id.tvMeaning);
-
             imgFavorite = itemView.findViewById(R.id.imgFavorite);
+            btnPlayAudio = itemView.findViewById(R.id.btnPlayAudio);
         }
 
         public void bind(FavoriteWord word, OnItemClickListener listener) {
@@ -96,10 +102,24 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         holder.txtPhonetic.setText(word.getPhonetic());
         holder.txtMeaning.setText(word.getMeaning());
         holder.bind(word, listener);
+        holder.btnPlayAudio.setOnClickListener(v -> {
+            String text = word.getWord();
+            if (textToSpeech != null && !text.isEmpty()) {
+                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return favoriteWords.size();
     }
+    public void shutdownTextToSpeech() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();       // Dừng nếu đang phát
+            textToSpeech.shutdown();   // Giải phóng tài nguyên
+        }
+    }
+
 }
