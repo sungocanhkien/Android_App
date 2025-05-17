@@ -11,15 +11,23 @@ public class FavoriteDatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "favorites";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_WORD = "word";
+    public static final String COLUMN_PHONETIC = "phonetic";
+    public static final String COLUMN_TYPE = "type";
+    public static final String COLUMN_MEANING = "meaning";
+    public static final String COLUMN_EXAMPLE = "example";
+    public static final String COLUMN_AUDIO = "audio";
+
 
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_WORD + " TEXT UNIQUE, " + "phonetic TEXT, " +
-                    "type TEXT, " +
-                    "meaning TEXT, " +
-                    "example TEXT, " +
-                    "audio TEXT);";
+                    COLUMN_WORD + " TEXT UNIQUE, " +
+                    COLUMN_PHONETIC + " TEXT, " +
+                    COLUMN_TYPE + " TEXT, " +
+                    COLUMN_MEANING + " TEXT, " +
+                    COLUMN_EXAMPLE + " TEXT, " +
+                    COLUMN_AUDIO + " TEXT);";
+
 
     public FavoriteDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,7 +40,13 @@ public class FavoriteDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + COLUMN_PHONETIC + " TEXT;");
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + COLUMN_TYPE + " TEXT;");
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + COLUMN_MEANING + " TEXT;");
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + COLUMN_EXAMPLE + " TEXT;");
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + COLUMN_AUDIO + " TEXT;");
+        }
     }
+
 }

@@ -134,13 +134,14 @@ public class FragmentMenu extends Fragment {
                         } else {
                             FavoriteWord favoriteWord = new FavoriteWord(
                                     wordResponse.getWord(),
-                                    wordResponse.getPhonetic(),
+                                    wordResponse.getPhonetic() != null ? wordResponse.getPhonetic() : "",
                                     wordResponse.getMeanings().get(0).getPartOfSpeech(),
                                     wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition(),
-                                    wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample(),
-                                    wordResponse.getPhonetics() != null && !wordResponse.getPhonetics().isEmpty()
-                                            ? wordResponse.getPhonetics()
-                                            : ""
+                                    wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample() != null
+                                            ? wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample()
+                                            : "",
+                                    wordResponse.getPhonetics() != null ? wordResponse.getPhonetics() : ""
+
                             );
                             favoriteRepository.addFavorite(favoriteWord);
                             buttonFavorite.setImageResource(android.R.drawable.btn_star_big_on);

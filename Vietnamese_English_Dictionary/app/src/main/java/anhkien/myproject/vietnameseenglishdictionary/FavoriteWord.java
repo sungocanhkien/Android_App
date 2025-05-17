@@ -17,12 +17,51 @@ public class FavoriteWord {
         this.audio = audio;
     }
 
-    // Getter
-    public String getWord() { return word; }
-    public String getPhonetic() { return phonetic; }
-    public String getType() { return type; }
-    public String getMeaning() { return meaning; }
-    public String getExample() { return example; }
-    public String getAudio() { return audio; }
-}
+    public String getWord() {
+        return word;
+    }
 
+    public String getPhonetic() {
+        return phonetic;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getMeaning() {
+        return meaning;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public String getAudio() {
+        return audio;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setPhonetic(String phonetic) {
+        this.phonetic = phonetic;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setMeaning(String meaning) {
+        this.meaning = meaning;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
+    }
+
+    public void setAudio(String audio) {
+        this.audio = audio;
+    }
+}
