@@ -5,6 +5,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     private OnItemClickListener listener;
     private TextToSpeech textToSpeech;
 
-    public FavoriteAdapter(TextToSpeech textToSpeech) {
+    public FavoriteAdapter(Context context, List<FavoriteWord> favoriteWords, TextToSpeech textToSpeech) {
+        this.context = context;
+        this.favoriteWords = favoriteWords;
         this.textToSpeech = textToSpeech;
     }
 
@@ -32,10 +35,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         void onItemClick(FavoriteWord word);
     }
 
-    public FavoriteAdapter(Context context, List<FavoriteWord> favoriteWords) {
-        this.context = context;
-        this.favoriteWords = favoriteWords;
-    }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
@@ -44,7 +43,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     public static class FavoriteViewHolder extends RecyclerView.ViewHolder {
         TextView txtWord, txtPhonetic, txtMeaning;
         ImageView imgFavorite;
-        View btnPlayAudio;
+        ImageButton btnPlayAudio;
 
         public FavoriteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,30 +77,25 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     public void onBindViewHolder(@NonNull FavoriteViewHolder holder, int position) {
         FavoriteWord word = favoriteWords.get(position);
         holder.txtWord.setText(word.getWord());
-        holder.imgFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String wordText = word.getWord();
-                String phonetic = word.getPhonetic();
-                String type = word.getType();
-                String meaning = word.getMeaning();
-                String example = word.getExample();
-                String audio = word.getAudio();
-
-                FavoriteWord favoriteWord = new FavoriteWord(wordText, phonetic, type, meaning, example, audio);
-                FavoriteRepository repository = new FavoriteRepository(context);
-                repository.addFavorite(favoriteWord); // Gọi class đã sửa
-
-                Toast.makeText(context, "Đã thêm vào mục yêu thích", Toast.LENGTH_SHORT).show();
-
-                // Đổi icon thành đã thích (nếu bạn có hình ảnh khác)
-                holder.imgFavorite.setImageResource(R.drawable.ic_favorite); // Bạn cần thêm hình này vào drawable
-            }
-        });
-
         holder.txtPhonetic.setText(word.getPhonetic());
         holder.txtMeaning.setText(word.getMeaning());
         holder.bind(word, listener);
+
+        holder.imgFavorite.setOnClickListener(v -> {
+            FavoriteWord favoriteWord = new FavoriteWord(
+                    word.getWord(),
+                    word.getPhonetic(),
+                    word.getType(),
+                    word.getMeaning(),
+                    word.getExample(),
+                    word.getAudio()
+            );
+            FavoriteRepository repository = new FavoriteRepository(context);
+            repository.addFavorite(favoriteWord);
+            Toast.makeText(context, "Đã thêm vào mục yêu thích", Toast.LENGTH_SHORT).show();
+            holder.imgFavorite.setImageResource(R.drawable.ic_favorite);
+        });
+
         holder.btnPlayAudio.setOnClickListener(v -> {
             String text = word.getWord();
             if (textToSpeech != null && !text.isEmpty()) {

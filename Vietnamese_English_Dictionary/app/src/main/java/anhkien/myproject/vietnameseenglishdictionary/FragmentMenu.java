@@ -69,6 +69,11 @@ public class FragmentMenu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
+        textToSpeech = new TextToSpeech(getContext(), status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                textToSpeech.setLanguage(Locale.UK);
+            }
+        });
 
         TextView txtWord = view.findViewById(R.id.txtWord);
         TextView txtPhonetic = view.findViewById(R.id.txtPhonetic);
@@ -194,8 +199,9 @@ public class FragmentMenu extends Fragment {
                 resultText.setVisibility(View.GONE);
             }
             listFavorite.setLayoutManager(new LinearLayoutManager(getContext()));
-            FavoriteAdapter adapter = new FavoriteAdapter(getContext(), favoriteWords);
-            listFavorite.setAdapter(favoriteAdapter);
+            FavoriteAdapter adapter = new FavoriteAdapter(getContext(), favoriteWords, textToSpeech);
+            listFavorite.setAdapter(adapter);
+            favoriteAdapter = adapter;
             adapter.setOnItemClickListener(word -> {
                 dictionaryRepository.searchWord(word.getWord(), new DictionaryRepository.DictionaryCallback() {
                     @Override
