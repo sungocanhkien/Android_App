@@ -43,7 +43,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
 
     public static class FavoriteViewHolder extends RecyclerView.ViewHolder {
         TextView txtWord, txtPhonetic, txtMeaning;
-        ImageButton btnPlayAudio;
+        ImageButton btnPlayAudio, btnDelete;
         View layoutDetails;
 
         public FavoriteViewHolder(@NonNull View itemView) {
@@ -51,7 +51,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             txtWord = itemView.findViewById(R.id.tvWord);
             txtPhonetic = itemView.findViewById(R.id.tvPhonetic);
             txtMeaning = itemView.findViewById(R.id.tvMeaning);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
             btnPlayAudio = itemView.findViewById(R.id.btnPlayAudio);
+
             layoutDetails = itemView.findViewById(R.id.layoutDetails);
         }
     }
@@ -64,8 +66,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     }
 
     @NonNull
-
-
     @Override
     public void onBindViewHolder(@NonNull FavoriteViewHolder holder, int position) {
         FavoriteWord word = favoriteWords.get(position);
@@ -89,6 +89,19 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             if (textToSpeech != null && !text.isEmpty()){
                 textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
             }
+        });
+
+        //Xóa từ khỏi danh sách yêu thích.
+        holder.btnDelete.setOnClickListener(v -> {
+            FavoriteRepository repository = new FavoriteRepository(context);
+            repository.removeFavorite(word.getWord());
+
+            // Xoá khỏi danh sách trong adapter
+            favoriteWords.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, favoriteWords.size());
+
+            Toast.makeText(context, "Đã xoá khỏi mục yêu thích", Toast.LENGTH_SHORT).show();
         });
 
     }
