@@ -49,5 +49,14 @@
             android:src="@android:drawable/ic_media_play"
             android:layout_marginTop="8dp"
             android:contentDescription="Play Audio" />
+        <ImageView
+            android:id="@+id/imgFavorite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_favorite"
+            android:contentDescription="Favorite icon"
+            />
+
     </LinearLayout>
 </LinearLayout>

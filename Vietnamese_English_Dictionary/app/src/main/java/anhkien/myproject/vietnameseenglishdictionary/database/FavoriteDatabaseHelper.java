@@ -1,8 +1,11 @@
 package anhkien.myproject.vietnameseenglishdictionary.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import anhkien.myproject.vietnameseenglishdictionary.FavoriteWord;
 
 public class FavoriteDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "dictionary.db";
@@ -48,5 +51,17 @@ public class FavoriteDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + COLUMN_AUDIO + " TEXT;");
         }
     }
+    public void addFavoriteWord(FavoriteWord word) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("word", word.getWord());
+        values.put("phonetic", word.getPhonetic());
+        values.put("meaning", word.getMeaning());
+        values.put("example", word.getExample()); // nếu bạn có cột 'example'
+        db.insert(TABLE_NAME, null, values);
+        db.close();
+    }
+
+
 
 }

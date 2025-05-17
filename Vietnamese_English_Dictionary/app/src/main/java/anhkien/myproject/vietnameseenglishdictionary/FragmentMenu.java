@@ -55,6 +55,7 @@ public class FragmentMenu extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null){
             currentTab = getArguments().getString("tab", "home");
@@ -75,13 +76,13 @@ public class FragmentMenu extends Fragment {
         TextView txtExample = view.findViewById(R.id.txtExample);
         TextView txtError = view.findViewById(R.id.txtError);
         EditText txtKeyword = getActivity().findViewById(R.id.edtTextSearch);
-        String searchKeyword = txtKeyword.getText().toString();
+        String inputKeyword = txtKeyword.getText().toString();
 
         // Nếu người dùng chưa nhập từ, hiển thị từ mặc định (ví dụ: "hello")
-        if (searchKeyword == null || searchKeyword.isEmpty()) {
+        if (inputKeyword == null || searchKeyword.isEmpty()) {
             searchKeyword = "hello"; // <-- từ mặc định
-            txtWord.setText(searchKeyword);
         }
+        txtWord.setText("Từ: " + searchKeyword);
 
         resultText = view.findViewById(R.id.txtResult);
         RecyclerView listFavorite = view.findViewById(R.id.listFavorite);
@@ -176,6 +177,7 @@ public class FragmentMenu extends Fragment {
         }
         else if (currentTab.equals("favorite")) {
             listFavorite = view.findViewById(R.id.listFavorite);
+            resultText.setVisibility(View.GONE);
             layoutWordDetails.setVisibility(View.GONE);
             listFavorite.setVisibility(View.VISIBLE);
             view.findViewById(R.id.btnFavorite).setVisibility(View.GONE);
@@ -197,6 +199,9 @@ public class FragmentMenu extends Fragment {
                 dictionaryRepository.searchWord(word.getWord(), new DictionaryRepository.DictionaryCallback() {
                     @Override
                     public void onSuccess(WordResponse wordResponse) {
+                        layoutWordDetails.setVisibility(View.VISIBLE);
+
+
                         txtWord.setText("Từ: " + wordResponse.getWord());
                         txtPhonetic.setText("Phát âm: " + wordResponse.getPhonetic());
                         txtType.setText("Loại từ: " + wordResponse.getMeanings().get(0).getPartOfSpeech());
