@@ -43,7 +43,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
 
     public static class FavoriteViewHolder extends RecyclerView.ViewHolder {
         TextView txtWord, txtPhonetic, txtMeaning;
-        ImageView imgFavorite;
         ImageButton btnPlayAudio;
         View layoutDetails;
 
@@ -52,7 +51,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             txtWord = itemView.findViewById(R.id.tvWord);
             txtPhonetic = itemView.findViewById(R.id.tvPhonetic);
             txtMeaning = itemView.findViewById(R.id.tvMeaning);
-            imgFavorite = itemView.findViewById(R.id.imgFavorite);
             btnPlayAudio = itemView.findViewById(R.id.btnPlayAudio);
             layoutDetails = itemView.findViewById(R.id.layoutDetails);
         }
@@ -93,12 +91,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             }
         });
 
-        holder.imgFavorite.setOnClickListener(v -> {
-            FavoriteRepository repository = new FavoriteRepository(context);
-            repository.addFavorite(word);
-            Toast.makeText(context, "Đã thêm vào mục yêu thích", Toast.LENGTH_SHORT).show();
-            holder.imgFavorite.setImageResource(R.drawable.ic_favorite);
-        });
     }
 
     @Override
