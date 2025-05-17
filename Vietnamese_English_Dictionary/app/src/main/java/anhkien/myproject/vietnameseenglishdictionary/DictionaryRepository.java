@@ -20,6 +20,7 @@ public class DictionaryRepository {
     }
 
     public void searchWord(boolean isEnglishToVietnamese, String word, DictionaryCallback callback) {
+        if (isEnglishToVietnamese){
         DictionaryApi api = ApiClient.getRetrofit().create(DictionaryApi.class);
         api.getMeaning(word).enqueue(new Callback<List<WordResponse>>() {
             @Override
