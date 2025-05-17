@@ -24,6 +24,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     private List<FavoriteWord> favoriteWords;
     private OnItemClickListener listener;
     private TextToSpeech textToSpeech;
+    private int expandedPosition = -1;
 
     public FavoriteAdapter(Context context, List<FavoriteWord> favoriteWords, TextToSpeech textToSpeech) {
         this.context = context;
@@ -44,6 +45,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         TextView txtWord, txtPhonetic, txtMeaning;
         ImageView imgFavorite;
         ImageButton btnPlayAudio;
+        View layoutDetails;
 
         public FavoriteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,14 +54,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             txtMeaning = itemView.findViewById(R.id.tvMeaning);
             imgFavorite = itemView.findViewById(R.id.imgFavorite);
             btnPlayAudio = itemView.findViewById(R.id.btnPlayAudio);
-        }
-
-        public void bind(FavoriteWord word, OnItemClickListener listener) {
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onItemClick(word);
-                }
-            });
+            layoutDetails = itemView.findViewById(R.id.layoutDetails);
         }
     }
 
@@ -79,30 +74,31 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         holder.txtWord.setText(word.getWord());
         holder.txtPhonetic.setText(word.getPhonetic());
         holder.txtMeaning.setText(word.getMeaning());
-        holder.bind(word, listener);
 
-        holder.imgFavorite.setOnClickListener(v -> {
-            FavoriteWord favoriteWord = new FavoriteWord(
-                    word.getWord(),
-                    word.getPhonetic(),
-                    word.getType(),
-                    word.getMeaning(),
-                    word.getExample(),
-                    word.getAudio()
-            );
-            FavoriteRepository repository = new FavoriteRepository(context);
-            repository.addFavorite(favoriteWord);
-            Toast.makeText(context, "Đã thêm vào mục yêu thích", Toast.LENGTH_SHORT).show();
-            holder.imgFavorite.setImageResource(R.drawable.ic_favorite);
+        //Ẩn hoặc hiển thị phần chi tiết
+        boolean isExpanded = position == expandedPosition;
+        holder.layoutDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
+        //Nhấn vào từ để mở hoặc thu gọn
+        holder.txtWord.setOnClickListener(v -> {
+            expandedPosition = isExpanded ? -1 : position;
+            notifyDataSetChanged();
         });
 
+        //Nút phát âm
         holder.btnPlayAudio.setOnClickListener(v -> {
             String text = word.getWord();
-            if (textToSpeech != null && !text.isEmpty()) {
+            if (textToSpeech != null && !text.isEmpty()){
                 textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
             }
         });
 
+        holder.imgFavorite.setOnClickListener(v -> {
+            FavoriteRepository repository = new FavoriteRepository(context);
+            repository.addFavorite(word);
+            Toast.makeText(context, "Đã thêm vào mục yêu thích", Toast.LENGTH_SHORT).show();
+            holder.imgFavorite.setImageResource(R.drawable.ic_favorite);
+        });
     }
 
     @Override
