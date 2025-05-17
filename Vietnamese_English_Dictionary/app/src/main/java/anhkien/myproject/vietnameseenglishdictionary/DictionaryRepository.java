@@ -19,20 +19,13 @@ public class DictionaryRepository {
         void onFailure(String message);
     }
 
-    public void searchWord(String word, DictionaryCallback callback) {
+    public void searchWord(boolean isEnglishToVietnamese, String word, DictionaryCallback callback) {
         DictionaryApi api = ApiClient.getRetrofit().create(DictionaryApi.class);
         api.getMeaning(word).enqueue(new Callback<List<WordResponse>>() {
             @Override
             public void onResponse(Call<List<WordResponse>> call, Response<List<WordResponse>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    WordResponse wordResponse = response.body().get(0);
-
-                    if (!wordResponse.getMeanings().isEmpty() &&
-                            !wordResponse.getMeanings().get(0).getDefinitions().isEmpty()) {
-                        callback.onSuccess(wordResponse);
-                    } else {
-                        callback.onFailure("Không tìm thấy nghĩa của từ.");
-                    }
+                    callback.onSuccess(response.body().get(0));
                 } else {
                     callback.onFailure("Không tìm thấy từ phù hợp. Hãy nhập lại một từ khác!");
                 }
@@ -44,5 +37,9 @@ public class DictionaryRepository {
                 callback.onFailure("Lỗi mạng: " + t.getMessage());
             }
         });
+    } else {
+        // Giả lập từ Việt -> Anh (do API hiện tại không hỗ trợ)
+        callback.onFailure("Chưa hỗ trợ dịch từ tiếng Việt sang tiếng Anh.");
+    }
     }
 }
