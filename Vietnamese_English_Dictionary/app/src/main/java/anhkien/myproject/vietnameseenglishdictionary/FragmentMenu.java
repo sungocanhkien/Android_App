@@ -101,7 +101,7 @@ public class FragmentMenu extends Fragment {
         if (currentTab.equals("home")) {
             layoutWordDetails.setVisibility(View.VISIBLE);
             listFavorite.setVisibility(View.GONE);
-            dictionaryRepository.searchWord(searchKeyword, new DictionaryRepository.DictionaryCallback() {
+            dictionaryRepository.searchWord(isEngLishToVietnamese, searchKeyword,new DictionaryRepository.DictionaryCallback() {
                 @Override
                 public void onSuccess(WordResponse wordResponse) {
                     //Nếu không có dữ liệu nghĩa -> thông báo lỗi.
@@ -156,13 +156,6 @@ public class FragmentMenu extends Fragment {
                     });
 
 
-                    //TextToSpeech
-                    textToSpeech = new TextToSpeech(getContext(), status -> {
-                        if (status == TextToSpeech.SUCCESS){
-                            textToSpeech.setLanguage(Locale.UK);
-                        }
-                    });
-
                     ImageButton buttonPlayAudio = view.findViewById(R.id.btnPlayAudio);
                     buttonPlayAudio.setVisibility(View.VISIBLE);
                     buttonPlayAudio.setOnClickListener(v -> {
@@ -203,7 +196,7 @@ public class FragmentMenu extends Fragment {
             listFavorite.setAdapter(adapter);
             favoriteAdapter = adapter;
             adapter.setOnItemClickListener(word -> {
-                dictionaryRepository.searchWord(word.getWord(), new DictionaryRepository.DictionaryCallback() {
+                dictionaryRepository.searchWord(isEngLishToVietnamese, word.getWord(), new DictionaryRepository.DictionaryCallback() {
                     @Override
                     public void onSuccess(WordResponse wordResponse) {
                         layoutWordDetails.setVisibility(View.VISIBLE);
@@ -224,7 +217,6 @@ public class FragmentMenu extends Fragment {
                     }
                 });
             });
-            listFavorite.setAdapter(adapter);
 
         }
 

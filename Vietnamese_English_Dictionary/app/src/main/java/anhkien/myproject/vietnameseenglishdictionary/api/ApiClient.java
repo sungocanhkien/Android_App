@@ -5,6 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     private static Retrofit retrofit = null;
+    private static Retrofit translationRetrofit = null;
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
@@ -13,5 +14,15 @@ public class ApiClient {
                     .build();
         }
         return retrofit;
+    }
+    // Dùng cho LibreTranslate
+    public static Retrofit getTranslationRetrofit() {
+        if (translationRetrofit == null) {
+            translationRetrofit = new Retrofit.Builder()
+                    .baseUrl("https://libretranslate.de")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return translationRetrofit;
     }
 }
