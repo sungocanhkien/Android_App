@@ -37,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home){
-                loadFragment(FragmentMenu.newInstance("home", "", true));
+                loadFragment(FragmentMenu.newInstance("home", "", isEnglishToVietnamese));
                 return true;
             } else if (id == R.id.nav_favorite) {
-                loadFragment(FragmentMenu.newInstance("favorite", "", true));
+                loadFragment(FragmentMenu.newInstance("favorite", "", isEnglishToVietnamese));
                 return true;
             }
             return false;
@@ -49,7 +49,17 @@ public class MainActivity extends AppCompatActivity {
         //xử lý nút chuyển Anh-Việt / Việt-Anh
         imagebuttonSwitchLang.setOnClickListener(v -> {
             isEnglishToVietnamese = !isEnglishToVietnamese;
+
+            // Lấy từ khóa hiện tại
+            String keyword = editTextSearch.getText().toString().trim();
+            if (keyword.isEmpty()) {
+                keyword = "hello";
+            }
+
+            // Reload fragment với trạng thái ngôn ngữ mới
+            loadFragment(FragmentMenu.newInstance("home", keyword, isEnglishToVietnamese));
         });
+
 
         //xử lý nút tìm kiếm
         imagebuttonSearch.setOnClickListener(v -> {

@@ -101,69 +101,34 @@ public class FragmentMenu extends Fragment {
         if (currentTab.equals("home")) {
             layoutWordDetails.setVisibility(View.VISIBLE);
             listFavorite.setVisibility(View.GONE);
-            dictionaryRepository.searchWord(isEngLishToVietnamese, searchKeyword,new DictionaryRepository.DictionaryCallback() {
+            dictionaryRepository.searchWord(isEngLishToVietnamese, searchKeyword, new DictionaryRepository.DictionaryCallback() {
                 @Override
                 public void onSuccess(WordResponse wordResponse) {
-                    //Nếu không có dữ liệu nghĩa -> thông báo lỗi.
-                    if (wordResponse.getMeanings() == null ||
-                            wordResponse.getMeanings().isEmpty() ||
-                            wordResponse.getMeanings().get(0).getDefinitions() == null ||
-                            wordResponse.getMeanings().get(0).getDefinitions().isEmpty()) {
+                    resultText.setText("");
+                    txtWord.setText("Từ: " + wordResponse.getWord());
 
-                        resultText.setText("Không tìm thấy nghĩa của từ. Vui lòng thử lại từ khác.");
-                        layoutWordDetails.setVisibility(View.GONE);
-                        return;
+                    if (isEngLishToVietnamese) {
+                        txtPhonetic.setText("Phát âm: " + wordResponse.getPhonetic());
+                        txtType.setText("Loại từ: " + wordResponse.getMeanings().get(0).getPartOfSpeech());
+                        txtMeaning.setText("Nghĩa: " + wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition());
+                        String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
+                        txtExample.setText(example != null ? "Ví dụ: " + example : "Ví dụ: (không có)");
+
+                        view.findViewById(R.id.btnFavorite).setVisibility(View.VISIBLE);
+                        view.findViewById(R.id.btnPlayAudio).setVisibility(View.VISIBLE);
+                    } else {
+                        // Việt → Anh (LibreTranslate)
+                        txtPhonetic.setText("");
+                        txtType.setText("");
+                        txtMeaning.setText("Dịch: " + wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition());
+                        txtExample.setText("");
+
+                        // Ẩn phát âm và favorite vì không phù hợp
+                        view.findViewById(R.id.btnFavorite).setVisibility(View.GONE);
+                        view.findViewById(R.id.btnPlayAudio).setVisibility(View.GONE);
                     }
 
-                    resultText.setText("");
-
-                    String word = wordResponse.getWord();
-                    String example = wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample();
-
-                    txtWord.setText("Từ: " + word);
-                    txtPhonetic.setText("Phát âm: " + wordResponse.getPhonetic());
-                    txtType.setText("Loại từ: " + wordResponse.getMeanings().get(0).getPartOfSpeech());
-                    txtMeaning.setText("Nghĩa: " + wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition());
-                    txtExample.setText(example != null ? "Ví dụ: " + example : "Ví dụ: (không có)");
-
                     layoutWordDetails.setVisibility(View.VISIBLE);
-
-
-                    //Favorite button xử lý
-                    ImageButton buttonFavorite = view.findViewById(R.id.btnFavorite);
-                    buttonFavorite.setVisibility(View.VISIBLE);
-                    buttonFavorite.setImageResource(favoriteRepository.isFavorite(word)? android.R.drawable.btn_star_big_on
-                            : android.R.drawable.btn_star);
-                    buttonFavorite.setOnClickListener(v -> {
-                        if (favoriteRepository.isFavorite(word)) {
-                            favoriteRepository.removeFavorite(word);
-                            buttonFavorite.setImageResource(android.R.drawable.btn_star);
-                        } else {
-                            FavoriteWord favoriteWord = new FavoriteWord(
-                                    wordResponse.getWord(),
-                                    wordResponse.getPhonetic() != null ? wordResponse.getPhonetic() : "",
-                                    wordResponse.getMeanings().get(0).getPartOfSpeech(),
-                                    wordResponse.getMeanings().get(0).getDefinitions().get(0).getDefinition(),
-                                    wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample() != null
-                                            ? wordResponse.getMeanings().get(0).getDefinitions().get(0).getExample()
-                                            : "",
-                                    wordResponse.getPhonetics() != null ? wordResponse.getPhonetics() : ""
-
-                            );
-                            favoriteRepository.addFavorite(favoriteWord);
-                            buttonFavorite.setImageResource(android.R.drawable.btn_star_big_on);
-                        }
-                    });
-
-
-                    ImageButton buttonPlayAudio = view.findViewById(R.id.btnPlayAudio);
-                    buttonPlayAudio.setVisibility(View.VISIBLE);
-                    buttonPlayAudio.setOnClickListener(v -> {
-                        String wordToSpeak = txtWord.getText().toString().replace("Từ: ", "").trim();
-                        if (!wordToSpeak.isEmpty()){
-                            textToSpeech.speak(wordToSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
-                        }
-                    });
                 }
 
                 @Override

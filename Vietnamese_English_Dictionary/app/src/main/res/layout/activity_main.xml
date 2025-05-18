@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:id="@+id/searchBar"
-        android:layout_width="374dp"
+        android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginTop="28dp"
         android:orientation="horizontal"
@@ -20,11 +20,14 @@
 
         <EditText
             android:id="@+id/edtTextSearch"
-            android:layout_width="319dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:hint="Nhập từ cần tìm..."></EditText>
+            android:hint="Nhập từ cần tìm..."
+            android:inputType="textVisiblePassword"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"></EditText>
 
         <ImageButton
             android:id="@+id/btnSearch"
