@@ -1,6 +1,7 @@
 package anhkien.myproject.vietnameseenglishdictionary;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -143,55 +144,43 @@ public class DatabaseHelper {
                     Log.d(TAG, "Old database deleted: " + deleted);
                 }
                 // Cần gọi getReadableDatabase().close() để SQLiteOpenHelper biết là cần tạo lại
-                // Tuy nhiên, vì copy trực tiếp, chỉ cần đảm bảo file không bị khóa.
                 copyDataBase(); // Copy lại file mới từ assets
             } catch (IOException e) {
                 Log.e(TAG, "Error upgrading database by copying from assets", e);
             }
         }
     }
+    public static final String VI_EN_MODE = "VI_EN"; // Tìm Việt -> Anh
+    public static final String EN_VI_MODE = "EN_VI"; // Tìm Anh -> Việt
+    
+    public Word searchWord(String keyword, String searchMode) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        Word foundWord = null;
 
+        String query;
+        // Tìm kiếm theo kiểu "bắt đầu bằng" (LIKE 'keyword%')
+        // Sử dụng selectionArgs để tránh SQL Injection và xử lý ký tự đặc biệt
+        String[] selectionArgs = {keyword + "%"};
 
-
-            // Bước 1: Dịch từ tiếng Việt sang tiếng Anh bằng LibreTranslate
-            TranslationApi translationApi = ApiClient.getTranslationRetrofit().create(TranslationApi.class);
-
-
-            Map<String, Object> body = new HashMap<>();
-            body.put("q", word);
-            body.put("source", "vi");
-            body.put("target", "en");
-            body.put("format", "text");
-
-            translationApi.translate(body).enqueue(new Callback<Map<String, String>>() {
-                @Override
-                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                    if (response.isSuccessful() && response.body() != null && response.body().containsKey("translatedText")) {
-                        String translated = response.body().get("translatedText");
-
-                        // Gọi lại API dictionary với từ đã dịch
-                        DictionaryApi dictionaryApi = ApiClient.getRetrofit().create(DictionaryApi.class);
-                        dictionaryApi.getMeaning(translated).enqueue(new Callback<List<WordResponse>>() {
-                            @Override
-                            public void onResponse(Call<List<WordResponse>> call, Response<List<WordResponse>> response) {
-                                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                                    callback.onSuccess(response.body().get(0));
-                                } else {
-                                    callback.onFailure("Không tìm thấy nghĩa cho từ đã dịch: " + translated);
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<List<WordResponse>> call, Throwable t) {
-                                callback.onFailure("Lỗi mạng khi tra từ đã dịch: " + t.getMessage());
-                            }
-                        });
-                    } else {
-                        callback.onFailure("Không thể dịch từ tiếng Việt. Vui lòng thử lại.");
-                    }
-                }
-
-
+        if (VI_EN_MODE.equals(searchMode)) {
+            // Người dùng nhập tiếng Việt, muốn tìm nghĩa tiếng Anh
+            // -> Tìm trong cột 'word' nơi 'language' là 'vi'
+            query = "SELECT * FROM " + TABLE_WORDS + " WHERE " +
+                    COLUMN_LANGUAGE + " = ? AND " +
+                    COLUMN_WORD + " LIKE ?";
+            selectionArgs = new String[]{"vi", keyword + "%"};
+        } else if (EN_VI_MODE.equals(searchMode)) {
+            // Người dùng nhập tiếng Anh, muốn tìm nghĩa tiếng Việt
+            // -> Tìm trong cột 'word' nơi 'language' là 'en'
+            query = "SELECT * FROM " + TABLE_WORDS + " WHERE " +
+                    COLUMN_LANGUAGE + " = ? AND " +
+                    COLUMN_WORD + " LIKE ?";
+            selectionArgs = new String[]{"en", keyword + "%"};
+        } else {
+            Log.e(TAG, "Chế độ tìm kiếm không hợp lệ: " + searchMode);
+            // db.close(); // SQLiteOpenHelper sẽ quản lý
+            return null;
         }
-    }
+
 }
