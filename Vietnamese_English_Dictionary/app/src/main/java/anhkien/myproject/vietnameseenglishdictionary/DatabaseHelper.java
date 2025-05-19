@@ -1,5 +1,6 @@
 package anhkien.myproject.vietnameseenglishdictionary;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -152,7 +153,7 @@ public class DatabaseHelper {
     }
     public static final String VI_EN_MODE = "VI_EN"; // Tìm Việt -> Anh
     public static final String EN_VI_MODE = "EN_VI"; // Tìm Anh -> Việt
-    
+
     public Word searchWord(String keyword, String searchMode) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
@@ -182,5 +183,70 @@ public class DatabaseHelper {
             // db.close(); // SQLiteOpenHelper sẽ quản lý
             return null;
         }
+        Log.d(TAG, "Truy vấn tìm kiếm: " + query + " với từ khóa: " + keyword);
+
+        try {
+            cursor = db.rawQuery(query, selectionArgs);
+            if (cursor != null && cursor.moveToFirst()) {
+                // Lấy index cột một cách an toàn
+                int idCol = cursor.getColumnIndexOrThrow(COLUMN_ID);
+                int wordCol = cursor.getColumnIndexOrThrow(COLUMN_WORD);
+                int transCol = cursor.getColumnIndexOrThrow(COLUMN_TRANSLATION);
+                int typeCol = cursor.getColumnIndexOrThrow(COLUMN_TYPE);
+                int exCol = cursor.getColumnIndexOrThrow(COLUMN_EXAMPLE);
+                int pronCol = cursor.getColumnIndexOrThrow(COLUMN_PRONUNCIATION);
+                int langCol = cursor.getColumnIndexOrThrow(COLUMN_LANGUAGE);
+                int favCol = cursor.getColumnIndexOrThrow(COLUMN_IS_FAVORITE);
+
+                foundWord = new Word(
+                        cursor.getInt(idCol),
+                        cursor.getString(wordCol),
+                        cursor.getString(transCol),
+                        cursor.getString(typeCol),
+                        cursor.getString(exCol),
+                        cursor.getString(pronCol),
+                        cursor.getString(langCol),
+                        cursor.getInt(favCol) == 1 // Chuyển 0/1 thành boolean
+                );
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Lỗi khi tìm kiếm từ: " + e.getMessage());
+            e.printStackTrace(); // In chi tiết lỗi
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            // db.close(); // SQLiteOpenHelper sẽ quản lý việc đóng database
+        }
+        return foundWord;
+    }
+
+    /**
+     * Cập nhật trạng thái yêu thích của một từ.
+     * @param wordId ID của từ cần cập nhật.
+     * @param isFavorite true nếu muốn đánh dấu yêu thích, false nếu bỏ.
+     * @return true nếu cập nhật thành công, false nếu thất bại.
+     */
+    public boolean setFavoriteStatus(int wordId, boolean isFavorite) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_IS_FAVORITE, isFavorite ? 1 : 0); // Lưu 1 cho true, 0 cho false
+
+        String whereClause = COLUMN_ID + " = ?";
+        String[] whereArgs = {String.valueOf(wordId)};
+
+        int rowsAffected = 0;
+        try {
+            rowsAffected = db.update(TABLE_WORDS, values, whereClause, whereArgs);
+        } catch (Exception e) {
+            Log.e(TAG, "Lỗi khi cập nhật trạng thái yêu thích: " + e.getMessage());
+            e.printStackTrace();
+        }
+        // db.close(); // SQLiteOpenHelper sẽ quản lý
+        return rowsAffected > 0;
+    }
+
+    
+
 
 }
