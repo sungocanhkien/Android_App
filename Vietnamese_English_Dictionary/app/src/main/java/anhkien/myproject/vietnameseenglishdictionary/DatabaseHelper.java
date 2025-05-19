@@ -130,6 +130,27 @@ public class DatabaseHelper {
         public void onCreate(SQLiteDatabase db) {
             Log.d(TAG, "onCreate called - This should ideally not happen if assets copy is successful.");
         }
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
+            // Nếu phiên bản database trong assets mới hơn phiên bản hiện tại trên thiết bị
+            if (newVersion > oldVersion) {
+                try {
+                    Log.d(TAG, "Newer database version found in assets. Deleting old and copying new.");
+                    // Xóa file DB cũ trước khi copy file mới từ assets
+                    File dbFile = new File(DB_PATH + DATABASE_NAME);
+                    if (dbFile.exists()) {
+                        boolean deleted = dbFile.delete();
+                        Log.d(TAG, "Old database deleted: " + deleted);
+                    }
+                    // Cần gọi getReadableDatabase().close() để SQLiteOpenHelper biết là cần tạo lại
+                    // Tuy nhiên, vì copy trực tiếp, chỉ cần đảm bảo file không bị khóa.
+                    copyDataBase(); // Copy lại file mới từ assets
+                } catch (IOException e) {
+                    Log.e(TAG, "Error upgrading database by copying from assets", e);
+                }
+            }
+        }
 
 
 
