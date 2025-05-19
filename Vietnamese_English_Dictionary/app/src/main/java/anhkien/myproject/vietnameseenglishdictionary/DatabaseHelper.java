@@ -1,10 +1,14 @@
 package anhkien.myproject.vietnameseenglishdictionary;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +100,36 @@ public class DatabaseHelper {
             File dbFile = new File(DB_PATH + DATABASE_NAME);
             return dbFile.exists();
         }
+        private void copyDataBase() throws IOException {
+            InputStream myInput = myContext.getAssets().open(DATABASE_NAME);
+            String outFileName = DB_PATH + DATABASE_NAME;
+            OutputStream myOutput = new FileOutputStream(outFileName);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = myInput.read(buffer)) > 0) {
+                myOutput.write(buffer, 0, length);
+            }
+
+            myOutput.flush();
+            myOutput.close();
+            myInput.close();
+            Log.d(TAG, "Database copied to: " + outFileName);
+
+            // Set version cho database vừa copy
+            SQLiteDatabase copiedDb = SQLiteDatabase.openDatabase(outFileName, null, SQLiteDatabase.OPEN_READWRITE);
+            copiedDb.setVersion(DATABASE_VERSION);
+            copiedDb.close();
+        }
+        @Override
+        public synchronized void close() {
+            super.close();
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            Log.d(TAG, "onCreate called - This should ideally not happen if assets copy is successful.");
+        }
 
 
 
@@ -137,11 +171,7 @@ public class DatabaseHelper {
                     }
                 }
 
-                @Override
-                public void onFailure(Call<Map<String, String>> call, Throwable t) {
-                    callback.onFailure("Lỗi khi gọi API dịch: " + t.getMessage());
-                }
-            });
+
         }
     }
 }
