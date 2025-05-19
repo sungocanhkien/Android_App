@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,25 +14,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import anhkien.myproject.vietnameseenglishdictionary.database.FavoriteDatabaseHelper;
 import anhkien.myproject.vietnameseenglishdictionary.database.FavoriteRepository;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
 
     private Context context;
-    private List<FavoriteWord> favoriteWords;
+    private List<Word> favoriteWords;
     private OnItemClickListener listener;
     private TextToSpeech textToSpeech;
     private int expandedPosition = -1;
 
-    public FavoriteAdapter(Context context, List<FavoriteWord> favoriteWords, TextToSpeech textToSpeech) {
+    public FavoriteAdapter(Context context, List<Word> favoriteWords, TextToSpeech textToSpeech) {
         this.context = context;
         this.favoriteWords = favoriteWords;
         this.textToSpeech = textToSpeech;
     }
 
     public interface OnItemClickListener {
-        void onItemClick(FavoriteWord word);
+        void onItemClick(Word word);
     }
 
 
@@ -68,7 +66,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     @NonNull
     @Override
     public void onBindViewHolder(@NonNull FavoriteViewHolder holder, int position) {
-        FavoriteWord word = favoriteWords.get(position);
+        Word word = favoriteWords.get(position);
         holder.txtWord.setText(word.getWord());
         holder.txtPhonetic.setText(word.getPhonetic());
         holder.txtMeaning.setText(word.getMeaning());

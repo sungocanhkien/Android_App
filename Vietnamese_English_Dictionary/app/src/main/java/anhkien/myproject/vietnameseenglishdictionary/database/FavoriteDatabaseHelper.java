@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import anhkien.myproject.vietnameseenglishdictionary.FavoriteWord;
+import anhkien.myproject.vietnameseenglishdictionary.Word;
 
 public class FavoriteDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "dictionary.db";
@@ -51,7 +51,7 @@ public class FavoriteDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + COLUMN_AUDIO + " TEXT;");
         }
     }
-    public void addFavoriteWord(FavoriteWord word) {
+    public void addFavoriteWord(Word word) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("word", word.getWord());

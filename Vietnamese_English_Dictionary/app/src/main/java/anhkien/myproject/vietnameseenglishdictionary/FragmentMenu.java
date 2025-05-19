@@ -10,19 +10,13 @@ import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 import java.util.Locale;
 
-import anhkien.myproject.vietnameseenglishdictionary.api.ApiClient;
-import anhkien.myproject.vietnameseenglishdictionary.api.DictionaryApi;
 import anhkien.myproject.vietnameseenglishdictionary.model.WordResponse;
-import retrofit2.Call;
 import anhkien.myproject.vietnameseenglishdictionary.database.FavoriteRepository;
 
 
@@ -149,7 +143,7 @@ public class FragmentMenu extends Fragment {
 
             listFavorite.setVisibility(View.VISIBLE);
 
-            List<FavoriteWord> favoriteWords = favoriteRepository.getAllFavorites();
+            List<Word> favoriteWords = favoriteRepository.getAllFavorites();
             if (favoriteWords.isEmpty()) {
                 resultText.setText("Danh sách yêu thích trống.");
                 resultText.setVisibility(View.VISIBLE);

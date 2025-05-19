@@ -15,7 +15,7 @@
         android:theme="@style/Theme.VietnameseEnglishDictionary"
         tools:targetApi="31">
         <activity
-            android:name=".Logo"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

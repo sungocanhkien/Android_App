@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import anhkien.myproject.vietnameseenglishdictionary.FavoriteWord;
+import anhkien.myproject.vietnameseenglishdictionary.Word;
 
 public class FavoriteRepository {
     private FavoriteDatabaseHelper dbHelper;
@@ -18,7 +18,7 @@ public class FavoriteRepository {
         dbHelper = new FavoriteDatabaseHelper(context);
     }
 
-    public void addFavorite(FavoriteWord word) {
+    public void addFavorite(Word word) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("word", word.getWord());
@@ -49,8 +49,8 @@ public class FavoriteRepository {
         return exists;
     }
 
-    public List<FavoriteWord> getAllFavorites() {
-        List<FavoriteWord> favorites = new ArrayList<>();
+    public List<Word> getAllFavorites() {
+        List<Word> favorites = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("favorites", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -61,7 +61,7 @@ public class FavoriteRepository {
                 String meaning = cursor.getString(cursor.getColumnIndexOrThrow("meaning"));
                 String example = cursor.getString(cursor.getColumnIndexOrThrow("example"));
                 String audio = cursor.getString(cursor.getColumnIndexOrThrow("audio"));
-                favorites.add(new FavoriteWord(word, phonetic, type, meaning, example, audio));
+                favorites.add(new Word(word, phonetic, type, meaning, example, audio));
             } while (cursor.moveToNext());
         }
         cursor.close();
