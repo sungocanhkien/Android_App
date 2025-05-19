@@ -24,7 +24,7 @@ public class FragmentMenu extends Fragment {
     private String currentTab = "home";
     private String searchKeyword = "";
     private boolean isEngLishToVietnamese = true;
-    private DictionaryRepository dictionaryRepository;
+    private DatabaseHelper databaseHelper;
     private TextView resultText;
     private TextToSpeech textToSpeech;
     private FavoriteRepository favoriteRepository;
@@ -88,14 +88,14 @@ public class FragmentMenu extends Fragment {
         RecyclerView listFavorite = view.findViewById(R.id.listFavorite);
         View layoutWordDetails = view.findViewById(R.id.layoutWordDetails);
 
-        dictionaryRepository = new DictionaryRepository();
+        databaseHelper = new DatabaseHelper();
         favoriteRepository = new FavoriteRepository(getContext());
 
 
         if (currentTab.equals("home")) {
             layoutWordDetails.setVisibility(View.VISIBLE);
             listFavorite.setVisibility(View.GONE);
-            dictionaryRepository.searchWord(isEngLishToVietnamese, searchKeyword, new DictionaryRepository.DictionaryCallback() {
+            databaseHelper.searchWord(isEngLishToVietnamese, searchKeyword, new DatabaseHelper.DictionaryCallback() {
                 @Override
                 public void onSuccess(WordResponse wordResponse) {
                     resultText.setText("");
@@ -155,7 +155,7 @@ public class FragmentMenu extends Fragment {
             listFavorite.setAdapter(adapter);
             favoriteAdapter = adapter;
             adapter.setOnItemClickListener(word -> {
-                dictionaryRepository.searchWord(isEngLishToVietnamese, word.getWord(), new DictionaryRepository.DictionaryCallback() {
+                databaseHelper.searchWord(isEngLishToVietnamese, word.getWord(), new DatabaseHelper.DictionaryCallback() {
                     @Override
                     public void onSuccess(WordResponse wordResponse) {
                         layoutWordDetails.setVisibility(View.VISIBLE);

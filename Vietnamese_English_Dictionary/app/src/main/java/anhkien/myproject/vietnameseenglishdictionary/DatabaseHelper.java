@@ -1,9 +1,10 @@
 package anhkien.myproject.vietnameseenglishdictionary;
 
+import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +17,64 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DictionaryRepository {
+public class DatabaseHelper {
     public interface DictionaryCallback {
-        void onSuccess(WordResponse wordResponse);
-        void onFailure(String message);
-    }
+        private static final String TAG = "DatabaseHelper";
+
+        private static String DB_PATH = "";
+        public static final String DATABASE_NAME = "mydatabase.db";
+        public static final int DATABASE_VERSION = 1; // Hằng số cho chế độ tìm kiếm
+
+
+        private final Context myContext;
+
+        public static final String TABLE_WORDS = "databaseme";
+
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_WORD = "word";
+        public static final String COLUMN_TRANSLATION = "translation";
+        public static final String COLUMN_TYPE = "type";
+        public static final String COLUMN_EXAMPLE = "example";
+        public static final String COLUMN_PRONUNCIATION = "pronunciation";
+        public static final String COLUMN_LANGUAGE = "language";
+        public static final String COLUMN_IS_FAVORITE = "isFavorite";
+        private static final String TABLE_CREATE_WORDS_REFERENCE =
+                "CREATE TABLE " + TABLE_WORDS + " (" +
+                        COLUMN_ID + " INTEGER PRIMARY KEY, " + 
+                        COLUMN_WORD + " TEXT NOT NULL, " +
+                        COLUMN_TRANSLATION + " TEXT NOT NULL, " +
+                        COLUMN_TYPE + " TEXT, " +
+                        COLUMN_EXAMPLE + " TEXT, " +
+                        COLUMN_PRONUNCIATION + " TEXT, " +
+                        COLUMN_LANGUAGE + " TEXT, " +
+                        COLUMN_IS_FAVORITE + " INTEGER DEFAULT 0" +
+                        ");";
+
+        public DatabaseHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+            this.myContext = context;
+
+            if (android.os.Build.VERSION.SDK_INT >= 17) {
+                DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
+            } else {
+                DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
+            }
+            Log.d(TAG, "DB_PATH: " + DB_PATH);
+
+            File dbDir = new File(DB_PATH);
+            if (!dbDir.exists()){
+                boolean dirCreated = dbDir.mkdirs();
+                Log.d(TAG, "Database directory created: " + dirCreated);
+            }
+
+            try {
+                createDataBase();
+            } catch (IOException e) {
+                Log.e(TAG, "Error creating database", e);
+                throw new RuntimeException("Error creating database", e);
+            }
+        }
+
 
     public void searchWord(boolean isEnglishToVietnamese, String word, DictionaryCallback callback) {
         if (isEnglishToVietnamese){
