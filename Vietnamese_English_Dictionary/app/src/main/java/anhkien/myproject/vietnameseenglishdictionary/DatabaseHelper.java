@@ -40,7 +40,7 @@ public class DatabaseHelper {
         public static final String COLUMN_IS_FAVORITE = "isFavorite";
         private static final String TABLE_CREATE_WORDS_REFERENCE =
                 "CREATE TABLE " + TABLE_WORDS + " (" +
-                        COLUMN_ID + " INTEGER PRIMARY KEY, " + 
+                        COLUMN_ID + " INTEGER PRIMARY KEY, " +
                         COLUMN_WORD + " TEXT NOT NULL, " +
                         COLUMN_TRANSLATION + " TEXT NOT NULL, " +
                         COLUMN_TYPE + " TEXT, " +
@@ -74,28 +74,31 @@ public class DatabaseHelper {
                 throw new RuntimeException("Error creating database", e);
             }
         }
+        public void createDataBase() throws IOException {
+            boolean dbExist = checkDataBase();
+            if (dbExist) {
+                Log.d(TAG, "Database already exists.");
 
-
-    public void searchWord(boolean isEnglishToVietnamese, String word, DictionaryCallback callback) {
-        if (isEnglishToVietnamese){
-        DictionaryApi api = ApiClient.getRetrofit().create(DictionaryApi.class);
-        api.getMeaning(word).enqueue(new Callback<List<WordResponse>>() {
-            @Override
-            public void onResponse(Call<List<WordResponse>> call, Response<List<WordResponse>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    callback.onSuccess(response.body().get(0));
-                } else {
-                    callback.onFailure("Không tìm thấy từ phù hợp. Hãy nhập lại một từ khác!");
+            } else {
+                this.getReadableDatabase(); // Gọi để Android tạo file DB trống và thư mục
+                this.close(); // Đóng file trống
+                try {
+                    copyDataBase();
+                    Log.d(TAG, "Database copied successfully from assets.");
+                } catch (IOException e) {
+                    Log.e(TAG, "Error copying database from assets", e);
+                    throw new Error("Error copying database");
                 }
             }
+        }
 
-            @Override
-            public void onFailure(Call<List<WordResponse>> call, Throwable t) {
-                Log.e("API_ERROR", t.getMessage(), t);
-                callback.onFailure("Lỗi mạng: " + t.getMessage());
-            }
-        });
-    } else {
+        private boolean checkDataBase() {
+            File dbFile = new File(DB_PATH + DATABASE_NAME);
+            return dbFile.exists();
+        }
+
+
+
             // Bước 1: Dịch từ tiếng Việt sang tiếng Anh bằng LibreTranslate
             TranslationApi translationApi = ApiClient.getTranslationRetrofit().create(TranslationApi.class);
 
