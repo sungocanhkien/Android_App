@@ -11,6 +11,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class SplashActivity extends AppCompatActivity {
+    private static final String TAG = "SplashActivity";
+    private static final int SPLASH_TIMEOUT = 2000; // 2 giây (2000 mili giây)
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
