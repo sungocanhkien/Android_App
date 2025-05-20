@@ -45,10 +45,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     public void onBindViewHolder(@NonNull FavoriteViewHolder holder, int position) {
         Word currentWord = favoriteWords.get(position);
 
-        // Hiển thị từ dựa trên ngôn ngữ gốc của nó trong DB
-        // Ví dụ: nếu word.getLanguage() là "en", thì word.getWord() là tiếng Anh
+        // Hiển thị từ dựa trên ngôn ngữ gốc trong DB
+        // Nếu word.getLaguage() là "en", thì word.getWord() là tiếng Anh
         // và word.getTranslation() là tiếng Việt.
-        // Bạn có thể điều chỉnh logic này nếu muốn hiển thị cố định Anh-Việt hoặc Việt-Anh.
         if ("en".equalsIgnoreCase(currentWord.getLanguage())) {
             holder.tvOriginalWord.setText(currentWord.getWord()); // Tiếng Anh
             holder.tvTranslation.setText(currentWord.getTranslation()); // Tiếng Việt
@@ -74,24 +73,26 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         });
     }
 
-    @NonNull
     @Override
-    public FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_favorite_word, parent, false);
-        return new FavoriteViewHolder(view);
+    public int getItemCount() {
+        return favoriteWords != null ? favoriteWords.size() : 0;
     }
 
-    @NonNull
-    @Override
-    public void onBindViewHolder(@NonNull FavoriteViewHolder holder, int position) {
-        Word word = favoriteWords.get(position);
-        holder.txtWord.setText(word.getWord());
-        holder.txtPhonetic.setText(word.getPhonetic());
-        holder.txtMeaning.setText(word.getMeaning());
 
-        //Ẩn hoặc hiển thị phần chi tiết
-        boolean isExpanded = position == expandedPosition;
-        holder.layoutDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
+    // ViewHolder class
+    public static class FavoriteViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvOriginalWord;
+        public TextView tvTranslation;
+        public ImageButton btnRemoveFavorite;
+
+        public FavoriteViewHolder(View itemView) {
+            super(itemView);
+            tvOriginalWord = itemView.findViewById(R.id.tv_item_word_original);
+            tvTranslation = itemView.findViewById(R.id.tv_item_word_translation);
+            btnRemoveFavorite = itemView.findViewById(R.id.btn_item_remove_favorite);
+        }
+    }
 
         //Nhấn vào từ để mở hoặc thu gọn
         holder.txtWord.setOnClickListener(v -> {

@@ -3,69 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
     android:padding="12dp">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_weight="1"
         android:gravity="center_vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_marginEnd="8dp">
         <TextView
-            android:id="@+id/tvWord"
+            android:id="@+id/tv_item_word_original"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="18sp"
+            android:text="Original Word"
+            android:textSize="17sp"
             android:textStyle="bold"
-            tools:ignore="MissingConstraints"></TextView>
-        <ImageButton
-            android:id="@+id/btnDelete"
+            android:textColor="?android:attr/textColorPrimary"></TextView>
+        <TextView
+            android:id="@+id/tv_item_word_translation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_delete"
-            android:contentDescription="Xóa từ"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginStart="8dp"
-            android:layout_gravity="center_vertical" />
+            android:text="Translation"
+            android:textSize="15sp"
+            android:textColor="?android:attr/textColorSecondary" />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/layoutDetails"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    <!-- Nút xóa từ khỏi danh sách yêu thích -->
+    <ImageButton
+        android:id="@+id/btn_item_remove_favorite"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:paddingTop="8dp">
-
-        <TextView android:id="@+id/tvPhonetic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Phonetic" />
-        <ImageButton
-            android:id="@+id/btnPlayAudio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_btn_speak_now"
-            android:contentDescription="Phát âm"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginStart="8dp" />
-
-        <TextView android:id="@+id/tvType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Type" />
-
-        <TextView android:id="@+id/tvMeaning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Meaning" />
-
-        <TextView android:id="@+id/tvExample"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Example" />
-
-
-    </LinearLayout>
+        android:src="@android:drawable/ic_menu_delete"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Xóa từ khỏi trang yêu thích"
+        android:padding="8dp"/> <!-- Icon delete mặc định của Android -->
 </LinearLayout>

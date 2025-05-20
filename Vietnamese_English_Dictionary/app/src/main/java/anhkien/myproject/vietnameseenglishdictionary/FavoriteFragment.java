@@ -73,6 +73,48 @@ public class FavoriteFragment extends Fragment implements FavoriteAdapter {
         Log.d(TAG, "onResume CALLED. Fragment HashCode: " + System.identityHashCode(this) + ". Attempting to load favorite words.");
         loadFavoriteWords();
     }
+    private void loadFavoriteWords() {
+        Log.d(TAG, "Bắt đầu loadFavoriteWords()...");
+        if (dbHelper == null) {
+            Log.e(TAG, "loadFavoriteWords: dbHelper is null. Cannot load favorites.");
+            tvNoFavorites.setText("Lỗi cơ sở dữ liệu.");
+            tvNoFavorites.setVisibility(View.VISIBLE);
+            rvFavoriteWords.setVisibility(View.GONE);
+            Log.d(TAG, "Kết thúc loadFavoriteWords() - dbHelper null.");
+            return;
+        }
+        if (favoriteAdapter == null) {
+            Log.e(TAG, "loadFavoriteWords: favoriteAdapter is null. Cannot update UI.");
+            Log.d(TAG, "Kết thúc loadFavoriteWords() - adapter null.");
+            return;
+        }
+
+        List<Word> newFavoritesFromDB = dbHelper.getFavoriteWords();
+        Log.d(TAG, "loadFavoriteWords: Số lượng từ yêu thích lấy từ DB: " + (newFavoritesFromDB != null ? newFavoritesFromDB.size() : "null"));
+        if (newFavoritesFromDB != null && newFavoritesFromDB.size() > 0) {
+            Log.d(TAG, "loadFavoriteWords: Từ yêu thích đầu tiên từ DB: " + newFavoritesFromDB.get(0).getWord() + ", isFav: " + newFavoritesFromDB.get(0).isFavorite());
+        }
+
+        // Cập nhật trực tiếp vào favoriteWordsList mà adapter đang tham chiếu
+        this.favoriteWordsList.clear();
+        if (newFavoritesFromDB != null && !newFavoritesFromDB.isEmpty()) {
+            this.favoriteWordsList.addAll(newFavoritesFromDB);
+        }
+
+        // Cập nhật UI hiển thị/ẩn dựa trên trạng thái cuối cùng của favoriteWordsList
+        if (this.favoriteWordsList.isEmpty()) {
+            tvNoFavorites.setVisibility(View.VISIBLE);
+            rvFavoriteWords.setVisibility(View.GONE);
+            tvNoFavorites.setText("Chưa có từ yêu thích nào.");
+        } else {
+            tvNoFavorites.setVisibility(View.GONE);
+            rvFavoriteWords.setVisibility(View.VISIBLE);
+        }
+
+        favoriteAdapter.notifyDataSetChanged(); // Thông báo cho adapter
+        Log.d(TAG, "loadFavoriteWords: Adapter notified. getItemCount() từ adapter: " + favoriteAdapter.getItemCount());
+        Log.d(TAG, "Kết thúc loadFavoriteWords().");
+    }
 
 
 }
