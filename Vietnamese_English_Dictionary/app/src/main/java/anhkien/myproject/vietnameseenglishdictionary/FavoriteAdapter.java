@@ -1,20 +1,15 @@
 package anhkien.myproject.vietnameseenglishdictionary;
 
 import android.content.Context;
-import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
-import anhkien.myproject.vietnameseenglishdictionary.database.FavoriteRepository;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
 
@@ -59,8 +54,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             holder.tvOriginalWord.setText(currentWord.getWord());
             holder.tvTranslation.setText(currentWord.getTranslation());
         }
-
-
         holder.btnRemoveFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,8 +70,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     public int getItemCount() {
         return favoriteWords != null ? favoriteWords.size() : 0;
     }
-
-
 
     // ViewHolder class
     public static class FavoriteViewHolder extends RecyclerView.ViewHolder {

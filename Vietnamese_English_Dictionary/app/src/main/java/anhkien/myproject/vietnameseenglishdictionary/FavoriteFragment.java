@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteFragment extends Fragment implements FavoriteAdapter {
+public class FavoriteFragment extends Fragment implements FavoriteAdapter.OnFavoriteRemovedListener {
     private static final String TAG = "FavoriteFragment";
 
     private RecyclerView rvFavoriteWords;
@@ -162,5 +162,5 @@ public class FavoriteFragment extends Fragment implements FavoriteAdapter {
             Log.e(TAG, "onFavoriteRemoved: Lỗi khi xóa từ ID: " + word.getId() + " khỏi yêu thích trong DB.");
         }
     }
-    
+
 }

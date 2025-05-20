@@ -4,91 +4,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="16dp"
+    tools:ignore="ExtraText">
 
-    <TextView
-        android:id="@+id/txtWord"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Từ:"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="5dp"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/txtResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FF0000"
-        android:textSize="16sp"
-        android:visibility="gone"
-        android:padding="5dp" />
-
+    <!-- Khu vực tìm kiếm -->
     <LinearLayout
-        android:id="@+id/layoutWordDetails"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:paddingTop="8dp">
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        tools:ignore="ExtraText">
 
-        <TextView
-            android:id="@+id/txtPhonetic"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/et_search_word"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Phát âm:" />
-
-        <TextView
-            android:id="@+id/txtType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Loại từ:" />
-
-        <TextView
-            android:id="@+id/txtMeaning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nghĩa:" />
-
-        <TextView
-            android:id="@+id/txtExample"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ví dụ:" />
+            android:layout_weight="1"
+            android:hint="Nhập từ cần tìm..."
+            android:inputType="text"
+            android:autofillHints="name" />
 
         <ImageButton
-            android:id="@+id/btnPlayAudio"
+            android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_media_play"
-            android:layout_marginTop="8dp"
-            android:contentDescription="Phát âm từ"
-            android:visibility="gone" />
+            android:src="@android:drawable/ic_menu_search"
+            android:contentDescription="Tìm kiếm"/>
 
-        <ImageButton
-            android:id="@+id/btnFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/btn_star"
-            android:layout_marginTop="4dp"
-            android:contentDescription="Yêu thích"
-            android:visibility="gone" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listFavorite"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginTop="8dp" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chế độ dịch: "
+            android:textSize="16sp"
+            android:layout_marginEnd="8dp"/>
+
+        <Spinner
+            android:id="@+id/spinner_language_mode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
     <TextView
-        android:id="@+id/txtError"
+        android:id="@+id/tv_language_mode_placeholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lỗi"
-        android:textColor="#FF0000"
-        android:visibility="gone"
-        android:padding="5dp" />
+        android:text="Chế độ dịch: (Sẽ thêm Spinner ở đây)"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"/>
+
+    <!-- Khu vực hiển thị kết quả -->
+    <TextView
+        android:id="@+id/tv_search_result_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kết quả tìm kiếm:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_search_result_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="--- Kết quả sẽ hiển thị ở đây ---"
+            android:textSize="16sp" />
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/btn_toggle_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_check_circle"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:padding="8dp"
+        android:contentDescription="Thêm vào yêu thích"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
 </LinearLayout>

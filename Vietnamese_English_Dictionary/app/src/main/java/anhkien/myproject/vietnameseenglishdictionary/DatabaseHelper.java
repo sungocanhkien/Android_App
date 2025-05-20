@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.io.File;
@@ -12,19 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import anhkien.myproject.vietnameseenglishdictionary.api.ApiClient;
-import anhkien.myproject.vietnameseenglishdictionary.api.DictionaryApi;
-import anhkien.myproject.vietnameseenglishdictionary.api.TranslationApi;
-import anhkien.myproject.vietnameseenglishdictionary.model.WordResponse;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class DatabaseHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
 
     private static String DB_PATH = "";
