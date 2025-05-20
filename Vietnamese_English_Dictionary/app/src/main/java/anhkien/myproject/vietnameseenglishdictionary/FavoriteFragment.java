@@ -162,4 +162,5 @@ public class FavoriteFragment extends Fragment implements FavoriteAdapter {
             Log.e(TAG, "onFavoriteRemoved: Lỗi khi xóa từ ID: " + word.getId() + " khỏi yêu thích trong DB.");
         }
     }
+    
 }
