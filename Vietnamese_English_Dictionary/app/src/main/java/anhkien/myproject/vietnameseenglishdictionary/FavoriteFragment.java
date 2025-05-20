@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -115,6 +116,50 @@ public class FavoriteFragment extends Fragment implements FavoriteAdapter {
         Log.d(TAG, "loadFavoriteWords: Adapter notified. getItemCount() từ adapter: " + favoriteAdapter.getItemCount());
         Log.d(TAG, "Kết thúc loadFavoriteWords().");
     }
+    @Override
+    public void onFavoriteRemoved(Word word, int position) {
+        Log.d(TAG, "onFavoriteRemoved: Yêu cầu xóa từ: " + word.getWord() + " (ID: " + word.getId() + ") tại vị trí: " + position);
+        if (dbHelper == null || word == null) {
+            Log.e(TAG, "onFavoriteRemoved: Không thể xóa yêu thích: dbHelper hoặc word null.");
+            return;
+        }
 
+        boolean success = dbHelper.setFavoriteStatus(word.getId(), false);
 
+        if (success) {
+            Log.d(TAG, "onFavoriteRemoved: Cập nhật DB thành công cho từ ID: " + word.getId());
+            if (position >= 0 && position < favoriteWordsList.size()) {
+                // Để chắc chắn hơn, kiểm tra ID trước khi xóa
+                if (favoriteWordsList.get(position).getId() == word.getId()) {
+                    favoriteWordsList.remove(position);
+                    favoriteAdapter.notifyItemRemoved(position);
+                    // Sau khi xóa, các item từ vị trí 'position' đến cuối list có thể thay đổi index
+                    // Nên cần notify cho range đó.
+                    if (favoriteWordsList.size() > position) { // Nếu còn item sau vị trí đã xóa
+                        favoriteAdapter.notifyItemRangeChanged(position, favoriteWordsList.size() - position);
+                    } else if (favoriteWordsList.isEmpty() && position == 0) {
+                        // Nếu xóa item cuối cùng và list rỗng, không cần notifyItemRangeChanged
+                    }
+                    Log.d(TAG, "onFavoriteRemoved: Đã xóa từ khỏi list và cập nhật adapter. New list size: " + favoriteWordsList.size());
+                } else {
+                    Log.w(TAG, "onFavoriteRemoved: ID từ tại vị trí (" + position + ") không khớp với từ cần xóa. Load lại toàn bộ.");
+                    loadFavoriteWords(); // Load lại để đảm bảo nhất quán
+                }
+            } else {
+                Log.w(TAG, "onFavoriteRemoved: Vị trí (" + position + ") không hợp lệ để xóa. List size: " + favoriteWordsList.size() + ". Load lại toàn bộ.");
+                loadFavoriteWords();
+            }
+
+            if (favoriteWordsList.isEmpty()) {
+                tvNoFavorites.setVisibility(View.VISIBLE);
+                rvFavoriteWords.setVisibility(View.GONE);
+                tvNoFavorites.setText("Chưa có từ yêu thích nào.");
+            }
+
+            Toast.makeText(getActivity(), "Đã xóa '" + word.getWord() + "' khỏi yêu thích.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Lỗi khi xóa khỏi yêu thích!", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "onFavoriteRemoved: Lỗi khi xóa từ ID: " + word.getId() + " khỏi yêu thích trong DB.");
+        }
+    }
 }

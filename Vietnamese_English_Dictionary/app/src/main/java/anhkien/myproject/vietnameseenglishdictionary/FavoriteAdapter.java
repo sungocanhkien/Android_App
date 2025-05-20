@@ -93,45 +93,4 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             btnRemoveFavorite = itemView.findViewById(R.id.btn_item_remove_favorite);
         }
     }
-
-        //Nhấn vào từ để mở hoặc thu gọn
-        holder.txtWord.setOnClickListener(v -> {
-            expandedPosition = isExpanded ? -1 : position;
-            notifyDataSetChanged();
-        });
-
-        //Nút phát âm
-        holder.btnPlayAudio.setOnClickListener(v -> {
-            String text = word.getWord();
-            if (textToSpeech != null && !text.isEmpty()){
-                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
-            }
-        });
-
-        //Xóa từ khỏi danh sách yêu thích.
-        holder.btnDelete.setOnClickListener(v -> {
-            FavoriteRepository repository = new FavoriteRepository(context);
-            repository.removeFavorite(word.getWord());
-
-            // Xoá khỏi danh sách trong adapter
-            favoriteWords.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, favoriteWords.size());
-
-            Toast.makeText(context, "Đã xoá khỏi mục yêu thích", Toast.LENGTH_SHORT).show();
-        });
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return favoriteWords.size();
-    }
-    public void shutdownTextToSpeech() {
-        if (textToSpeech != null) {
-            textToSpeech.stop();       // Dừng nếu đang phát
-            textToSpeech.shutdown();   // Giải phóng tài nguyên
-        }
-    }
-
 }
