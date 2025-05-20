@@ -2,82 +2,77 @@ package anhkien.myproject.vietnameseenglishdictionary;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText editTextSearch;
-    private ImageButton imagebuttonSearch, imagebuttonSwitchLang;
+    private static final String TAG = "MainActivity";
     private BottomNavigationView bottomNavigationView;
 
     //Trạng thái ngôn ngữ
-    private  boolean isEnglishToVietnamese = true;
-    @SuppressLint("MissingInflatedId")
+    private final FragmentManager fm = getSupportFragmentManager();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        
-        editTextSearch = findViewById(R.id.edtTextSearch);
-        imagebuttonSearch = findViewById(R.id.btnSearch);
-        imagebuttonSwitchLang = findViewById(R.id.btnChuyenNN);
-        bottomNavigationView = findViewById(R.id.bottomMenu);
+        Log.d(TAG, "MainActivity created.");
 
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        //xử lý bottomNavigation
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_home){
-                loadFragment(FragmentMenu.newInstance("home", "", isEnglishToVietnamese));
-                return true;
-            } else if (id == R.id.nav_favorite) {
-                loadFragment(FragmentMenu.newInstance("favorite", "", isEnglishToVietnamese));
-                return true;
-            }
-            return false;
-        });
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+                String tag = null;
 
-        //xử lý nút chuyển Anh-Việt / Việt-Anh
-        imagebuttonSwitchLang.setOnClickListener(v -> {
-            isEnglishToVietnamese = !isEnglishToVietnamese;
+                int itemId = item.getItemId();
+                if (itemId == R.id.nav_home) {
+                    selectedFragment = new HomeFragment(); // Tạo instance mới mỗi lần
+                    tag = "HOME_FRAGMENT";
+                    Log.d(TAG, "Home navigation item selected");
+                } else if (itemId == R.id.nav_favorite) {
+                    selectedFragment = new FavoriteFragment(); // Tạo instance mới mỗi lần
+                    tag = "FAVORITE_FRAGMENT";
+                    Log.d(TAG, "Favorite navigation item selected");
+                }
 
-            // Lấy từ khóa hiện tại
-            String keyword = editTextSearch.getText().toString().trim();
-            if (keyword.isEmpty()) {
-                keyword = "hello";
-            }
-
-            // Reload fragment với trạng thái ngôn ngữ mới
-            loadFragment(FragmentMenu.newInstance("home", keyword, isEnglishToVietnamese));
-        });
-
-
-        //xử lý nút tìm kiếm
-        imagebuttonSearch.setOnClickListener(v -> {
-            String keyword = editTextSearch.getText().toString().trim();
-            if (!keyword.isEmpty()){
-                //Truyền từ khóa cho FragmentMenu để xử lý tìm kiếm
-                loadFragment(FragmentMenu.newInstance("home", keyword, isEnglishToVietnamese));
+                if (selectedFragment != null) {
+                    loadFragment(selectedFragment, tag);
+                    return true;
+                }
+                return false;
             }
         });
-        // Hiển thị mặc định Fragment "home" với từ khóa mặc định "hello"
-        loadFragment(FragmentMenu.newInstance("home", "hello", true));
 
+        // Load Fragment mặc định khi Activity được tạo lần đầu
+        if (savedInstanceState == null) {
+            // Load HomeFragment làm mặc định
+            loadFragment(new HomeFragment(), "HOME_FRAGMENT");
+            Log.d(TAG, "Default fragment (HomeFragment) loaded.");
+        }
     }
 
-    private void loadFragment(FragmentMenu fragmentMenu) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.hienthiKQ, fragmentMenu)
-                .commitNow();
+    // Sử dụng replace để load Fragment
+    private void loadFragment(Fragment fragment, String tag) {
+        Log.d(TAG, "loadFragment: Replacing with fragment with tag: " + tag);
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment, tag);
+        transaction.commit();
     }
 }

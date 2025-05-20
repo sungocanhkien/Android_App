@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -221,12 +222,6 @@ public class DatabaseHelper {
         return foundWord;
     }
 
-    /**
-     * Cập nhật trạng thái yêu thích của một từ.
-     * @param wordId ID của từ cần cập nhật.
-     * @param isFavorite true nếu muốn đánh dấu yêu thích, false nếu bỏ.
-     * @return true nếu cập nhật thành công, false nếu thất bại.
-     */
     public boolean setFavoriteStatus(int wordId, boolean isFavorite) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -246,7 +241,51 @@ public class DatabaseHelper {
         return rowsAffected > 0;
     }
 
+    /* Lấy danh sách tất cả các từ được đánh dấu là yêu thích.
+         @return Danh sách các đối tượng Word.*/
+    public List<Word> getFavoriteWords() {
+        List<Word> favoriteWordsList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
 
+        String query = "SELECT * FROM " + TABLE_WORDS + " WHERE " + COLUMN_IS_FAVORITE + " = 1";
+        Log.d(TAG, "Truy vấn lấy từ yêu thích: " + query);
 
+        try {
+            cursor = db.rawQuery(query, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    int idCol = cursor.getColumnIndexOrThrow(COLUMN_ID);
+                    int wordCol = cursor.getColumnIndexOrThrow(COLUMN_WORD);
+                    int transCol = cursor.getColumnIndexOrThrow(COLUMN_TRANSLATION);
+                    int typeCol = cursor.getColumnIndexOrThrow(COLUMN_TYPE);
+                    int exCol = cursor.getColumnIndexOrThrow(COLUMN_EXAMPLE);
+                    int pronCol = cursor.getColumnIndexOrThrow(COLUMN_PRONUNCIATION);
+                    int langCol = cursor.getColumnIndexOrThrow(COLUMN_LANGUAGE);
+                    int favCol = cursor.getColumnIndexOrThrow(COLUMN_IS_FAVORITE);
 
+                    Word word = new Word(
+                            cursor.getInt(idCol),
+                            cursor.getString(wordCol),
+                            cursor.getString(transCol),
+                            cursor.getString(typeCol),
+                            cursor.getString(exCol),
+                            cursor.getString(pronCol),
+                            cursor.getString(langCol),
+                            cursor.getInt(favCol) == 1 // Hoặc đơn giản là true
+                    );
+                    favoriteWordsList.add(word);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Lỗi khi lấy danh sách từ yêu thích: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            // db.close(); // SQLiteOpenHelper sẽ quản lý
+        }
+        return favoriteWordsList;
+    }
 }
