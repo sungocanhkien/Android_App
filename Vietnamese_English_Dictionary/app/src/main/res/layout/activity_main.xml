@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        android:background="?android:attr/windowBackground" /> <!-- Màu nền mặc định của cửa sổ -->
+        android:background="#03A9F4" /> <!-- Màu nền mặc định của cửa sổ -->
 
 
 </RelativeLayout>

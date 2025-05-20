@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="8dp"
+    android:background="#AADCE4"
     android:layout_height="match_parent">
     <!-- RecyclerView để hiển thị danh sách các từ yêu thích -->
     <androidx.recyclerview.widget.RecyclerView

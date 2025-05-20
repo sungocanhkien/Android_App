@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#AADCE4"
     android:orientation="vertical"
     android:padding="16dp"
     tools:ignore="ExtraText">
@@ -12,12 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="#03A9F4"
         android:layout_marginBottom="16dp"
         tools:ignore="ExtraText">
-
         <EditText
             android:id="@+id/et_search_word"
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Nhập từ cần tìm..."
