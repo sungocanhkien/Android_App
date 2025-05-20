@@ -18,48 +18,66 @@ import anhkien.myproject.vietnameseenglishdictionary.database.FavoriteRepository
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
 
-    private Context context;
+    private static final String TAG = "FavoriteAdapter";
     private List<Word> favoriteWords;
-    private OnItemClickListener listener;
-    private TextToSpeech textToSpeech;
-    private int expandedPosition = -1;
+    private Context context;
+    private OnFavoriteRemovedListener listener; // Interface để callback về Fragment
 
-    public FavoriteAdapter(Context context, List<Word> favoriteWords, TextToSpeech textToSpeech) {
+    // Interface để thông báo cho Fragment khi một từ được xóa
+    public interface OnFavoriteRemovedListener {
+        void onFavoriteRemoved(Word word, int position);
+    }
+
+    public FavoriteAdapter(Context context, List<Word> favoriteWords, OnFavoriteRemovedListener listener) {
         this.context = context;
         this.favoriteWords = favoriteWords;
-        this.textToSpeech = textToSpeech;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(Word word);
-    }
-
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+    @NonNull
+    @Override
+    public FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_favorite_word, parent, false);
+        return new FavoriteViewHolder(itemView);
+    }
 
-    public static class FavoriteViewHolder extends RecyclerView.ViewHolder {
-        TextView txtWord, txtPhonetic, txtMeaning;
-        ImageButton btnPlayAudio, btnDelete;
-        View layoutDetails;
+    @Override
+    public void onBindViewHolder(@NonNull FavoriteViewHolder holder, int position) {
+        Word currentWord = favoriteWords.get(position);
 
-        public FavoriteViewHolder(@NonNull View itemView) {
-            super(itemView);
-            txtWord = itemView.findViewById(R.id.tvWord);
-            txtPhonetic = itemView.findViewById(R.id.tvPhonetic);
-            txtMeaning = itemView.findViewById(R.id.tvMeaning);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
-            btnPlayAudio = itemView.findViewById(R.id.btnPlayAudio);
-
-            layoutDetails = itemView.findViewById(R.id.layoutDetails);
+        // Hiển thị từ dựa trên ngôn ngữ gốc của nó trong DB
+        // Ví dụ: nếu word.getLanguage() là "en", thì word.getWord() là tiếng Anh
+        // và word.getTranslation() là tiếng Việt.
+        // Bạn có thể điều chỉnh logic này nếu muốn hiển thị cố định Anh-Việt hoặc Việt-Anh.
+        if ("en".equalsIgnoreCase(currentWord.getLanguage())) {
+            holder.tvOriginalWord.setText(currentWord.getWord()); // Tiếng Anh
+            holder.tvTranslation.setText(currentWord.getTranslation()); // Tiếng Việt
+        } else if ("vi".equalsIgnoreCase(currentWord.getLanguage())) {
+            holder.tvOriginalWord.setText(currentWord.getWord()); // Tiếng Việt
+            holder.tvTranslation.setText(currentWord.getTranslation()); // Tiếng Anh
+        } else {
+            // Trường hợp không xác định, hiển thị cả hai
+            holder.tvOriginalWord.setText(currentWord.getWord());
+            holder.tvTranslation.setText(currentWord.getTranslation());
         }
+
+
+        holder.btnRemoveFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    // Thông báo cho Fragment rằng một từ cần được xóa
+                    // Fragment sẽ xử lý việc xóa khỏi DB và cập nhật danh sách
+                    listener.onFavoriteRemoved(currentWord, holder.getAdapterPosition());
+                }
+            }
+        });
     }
 
     @NonNull
     @Override
     public FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_favorite, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_favorite_word, parent, false);
         return new FavoriteViewHolder(view);
     }
 

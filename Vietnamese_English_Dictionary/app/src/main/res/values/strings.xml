@@ -1,5 +1,10 @@
 <resources>
-    <string name="app_name">Vietnamese English Dictionary</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Vietnames English Dictionary</string>
+    <string name="mode_en_vi">Anh → Việt</string>
+    <string name="mode_vi_en">Việt → Anh</string>
+
+    <string-array name="language_modes_array">
+        <item>@string/mode_en_vi</item>
+        <item>@string/mode_vi_en</item>
+    </string-array>
 </resources>

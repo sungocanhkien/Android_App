@@ -1,0 +1,78 @@
+package anhkien.myproject.vietnameseenglishdictionary;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FavoriteFragment extends Fragment implements FavoriteAdapter {
+    private static final String TAG = "FavoriteFragment";
+
+    private RecyclerView rvFavoriteWords;
+    private TextView tvNoFavorites;
+    private FavoriteAdapter favoriteAdapter;
+    private List<Word> favoriteWordsList; // List này sẽ được Adapter tham chiếu trực tiếp
+    private DatabaseHelper dbHelper;
+    public FavoriteFragment() {
+        // Required empty public constructor
+        Log.d(TAG, "Constructor FavoriteFragment called. HashCode: " + System.identityHashCode(this));
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: Fragment created. HashCode: " + System.identityHashCode(this));
+        try {
+            dbHelper = new DatabaseHelper(getActivity());
+            Log.d(TAG, "onCreate: DatabaseHelper initialized.");
+        } catch (Exception e) {
+            Log.e(TAG, "onCreate: Error initializing DatabaseHelper: ", e);
+            // Cân nhắc việc hiển thị lỗi cho người dùng hoặc xử lý khác
+        }
+        favoriteWordsList = new ArrayList<>();
+        Log.d(TAG, "onCreate: favoriteWordsList initialized. HashCode: " + System.identityHashCode(favoriteWordsList));
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView called. Fragment HashCode: " + System.identityHashCode(this));
+        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated called. Fragment HashCode: " + System.identityHashCode(this));
+
+        rvFavoriteWords = view.findViewById(R.id.rv_favorite_words);
+        tvNoFavorites = view.findViewById(R.id.tv_no_favorites);
+
+        rvFavoriteWords.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // Khởi tạo Adapter và truyền favoriteWordsList (mà Fragment sở hữu)
+        favoriteAdapter = new FavoriteAdapter(getActivity(), favoriteWordsList, this);
+        Log.d(TAG, "onViewCreated: FavoriteAdapter created. List HashCode passed to Adapter: " + System.identityHashCode(favoriteWordsList));
+        rvFavoriteWords.setAdapter(favoriteAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume CALLED. Fragment HashCode: " + System.identityHashCode(this) + ". Attempting to load favorite words.");
+        loadFavoriteWords();
+    }
+
+
+}

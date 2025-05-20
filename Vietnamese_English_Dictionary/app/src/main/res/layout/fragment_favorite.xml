@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    android:layout_height="match_parent">
+    <!-- RecyclerView để hiển thị danh sách các từ yêu thích -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favorite_words"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_favorite_word" /> <!-- tools:listitem để xem trước trong Design view -->
+
+    <!-- TextView hiển thị khi danh sách yêu thích trống -->
+    <TextView
+        android:id="@+id/tv_no_favorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chưa có từ yêu thích nào."
+        android:textSize="18sp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" /> <!-- Ban đầu ẩn đi -->
+</RelativeLayout>
