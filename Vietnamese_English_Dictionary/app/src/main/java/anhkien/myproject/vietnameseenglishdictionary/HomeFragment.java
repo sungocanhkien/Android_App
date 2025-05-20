@@ -156,9 +156,9 @@ public class HomeFragment extends Fragment {
     private void updateFavoriteButtonIcon() {
         if (currentFoundWord != null && btnToggleFavorite != null) {
             if (currentFoundWord.isFavorite()) {
-                btnToggleFavorite.setImageResource(R.drawable.baseline_check_circle_fill);
+                btnToggleFavorite.setImageResource(R.drawable.heart_fill);
             } else {
-                btnToggleFavorite.setImageResource(R.drawable.baseline_check_circle);
+                btnToggleFavorite.setImageResource(R.drawable.heart);
             }
         }
     }
