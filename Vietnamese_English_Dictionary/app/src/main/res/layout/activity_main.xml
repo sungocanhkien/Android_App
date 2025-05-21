@@ -6,20 +6,24 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <!-- Nằm trên BottomNavigationView -->
+
+    <!-- Thanh điều hướng dưới cùng -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation" /> <!-- Nằm trên BottomNavigationView -->
+        android:layout_above="@id/bottom_navigation"
+        android:layout_marginBottom="-2dp" />
 
-    <!-- Thanh điều hướng dưới cùng -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu"
-        android:background="#03A9F4" /> <!-- Màu nền mặc định của cửa sổ -->
+        android:layout_marginBottom="16dp"
+        android:background="#03A9F4"
+        app:menu="@menu/bottom_nav_menu" /> <!-- Màu nền mặc định của cửa sổ -->
 
 
 </RelativeLayout>

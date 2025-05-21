@@ -4,12 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="8dp"
     android:background="#AADCE4"
+    android:orientation="vertical"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DANH SÁCH TỪ YÊU THÍCH"
+            android:textStyle="bold"
+            android:textColor="#06EF10"
+            android:gravity="center"
+            android:textSize="25dp"></TextView>
+    </LinearLayout>
     <!-- RecyclerView để hiển thị danh sách các từ yêu thích -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite_words"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:scrollbars="vertical"
         tools:listitem="@layout/item_favorite_word" /> <!-- tools:listitem để xem trước trong Design view -->
 

@@ -68,12 +68,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="213dp"
         android:orientation="horizontal"
         android:padding="10dp">
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="371dp"
+            android:layout_height="200dp"
             android:layout_weight="1">
 
             <TextView
@@ -88,12 +89,26 @@
             android:id="@+id/btn_toggle_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Thêm vào yêu thích"
             android:padding="5dp"
             android:src="@drawable/heart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nen">
+
+        </ImageView>
     </LinearLayout>
 </LinearLayout>
