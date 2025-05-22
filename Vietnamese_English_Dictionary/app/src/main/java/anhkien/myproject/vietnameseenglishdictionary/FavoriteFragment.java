@@ -158,7 +158,7 @@ public class FavoriteFragment extends Fragment implements FavoriteAdapter.OnFavo
             }
 
             Toast.makeText(getActivity(), "Đã xóa '" + word.getWord() + "' khỏi yêu thích.", Toast.LENGTH_SHORT).show();
-           
+
         } else {
             Toast.makeText(getActivity(), "Lỗi khi xóa khỏi yêu thích!", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "onFavoriteRemoved: Lỗi khi xóa từ ID: " + word.getId() + " khỏi yêu thích trong DB.");
