@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,7 +145,10 @@ public class HomeFragment extends Fragment {
             currentFoundWord.setFavorite(newFavoriteStatus);
             updateFavoriteButtonIcon();
             String message = newFavoriteStatus ? "Đã thêm vào yêu thích" : "Đã xóa khỏi yêu thích";
-            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);  // <-- chỉnh giữa màn hình
+            toast.show();
             Log.d(TAG, "Từ ID " + currentFoundWord.getId() + " trạng thái yêu thích mới: " + newFavoriteStatus);
 
         } else {

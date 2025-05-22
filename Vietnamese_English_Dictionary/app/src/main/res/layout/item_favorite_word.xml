@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Xóa từ khỏi trang yêu thích"
-                android:padding="8dp"
+                android:padding="10dp"
                 android:src="@android:drawable/ic_menu_delete" /> <!-- Icon delete mặc định của Android -->
         </LinearLayout>
 

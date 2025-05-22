@@ -2,6 +2,7 @@ package anhkien.myproject.vietnameseenglishdictionary;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +107,7 @@ public class FavoriteFragment extends Fragment implements FavoriteAdapter.OnFavo
         if (this.favoriteWordsList.isEmpty()) {
             tvNoFavorites.setVisibility(View.VISIBLE);
             rvFavoriteWords.setVisibility(View.GONE);
-            tvNoFavorites.setText("Chưa có từ yêu thích nào.");
+            tvNoFavorites.setText("     Chưa có từ yêu thích nào.");
         } else {
             tvNoFavorites.setVisibility(View.GONE);
             rvFavoriteWords.setVisibility(View.VISIBLE);
@@ -153,10 +154,11 @@ public class FavoriteFragment extends Fragment implements FavoriteAdapter.OnFavo
             if (favoriteWordsList.isEmpty()) {
                 tvNoFavorites.setVisibility(View.VISIBLE);
                 rvFavoriteWords.setVisibility(View.GONE);
-                tvNoFavorites.setText("Chưa có từ yêu thích nào.");
+                tvNoFavorites.setText("     Chưa có từ yêu thích nào.");
             }
 
             Toast.makeText(getActivity(), "Đã xóa '" + word.getWord() + "' khỏi yêu thích.", Toast.LENGTH_SHORT).show();
+           
         } else {
             Toast.makeText(getActivity(), "Lỗi khi xóa khỏi yêu thích!", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "onFavoriteRemoved: Lỗi khi xóa từ ID: " + word.getId() + " khỏi yêu thích trong DB.");
