@@ -10,14 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/list_favorite_word"></ImageView>
+        <!--<TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="DANH SÁCH TỪ YÊU THÍCH"
             android:textStyle="bold"
             android:textColor="#06EF10"
             android:gravity="center"
-            android:textSize="25dp"></TextView>
+            android:textSize="25dp"></TextView>-->
     </LinearLayout>
     <!-- RecyclerView để hiển thị danh sách các từ yêu thích -->
     <!-- tools:listitem để xem trước trong Design view -->

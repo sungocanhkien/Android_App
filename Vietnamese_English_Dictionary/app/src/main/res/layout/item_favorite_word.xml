@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#FFEB3B"
     android:gravity="center_vertical"
     android:padding="8dp">
 
@@ -19,6 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/bo_goc_cho_tu_yeu_thich"
             android:layout_weight="1"
             android:layout_marginEnd="8dp">
             <TextView
@@ -42,15 +42,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/ic_launcher_background">
+            android:background="@drawable/bo_goc_nut_xoa">
+            <!--/*android:background="@color/ic_launcher_background"*/-->
+
             <ImageButton
                 android:id="@+id/btn_item_remove_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_delete"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Xóa từ khỏi trang yêu thích"
-                android:padding="8dp"/> <!-- Icon delete mặc định của Android -->
+                android:padding="8dp"
+                android:src="@android:drawable/ic_menu_delete" /> <!-- Icon delete mặc định của Android -->
         </LinearLayout>
 
     </LinearLayout>
