@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
-        android:background="#03A9F4"
+        android:background="@drawable/bogoc_thanh_timkiem"
         app:menu="@menu/bottom_nav_menu" /> <!-- Màu nền mặc định của cửa sổ -->
 
 

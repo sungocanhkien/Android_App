@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="#03A9F4"
+                android:background="@drawable/bogoc_thanh_timkiem"
                 android:layout_marginBottom="16dp"
                 tools:ignore="ExtraText">
                 <EditText
@@ -47,6 +47,7 @@
                     android:id="@+id/btn_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bo_goc_chung"
                     android:src="@android:drawable/ic_menu_search"
                     android:contentDescription="Tìm kiếm"/>
             </LinearLayout>
@@ -54,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="#AADCE4"
+                android:background="@drawable/bo_goc_chung"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -80,7 +81,7 @@
         android:id="@+id/tv_search_result_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#AADCE4"
+        android:background="@drawable/bo_goc_chung"
         android:text="Kết quả tìm kiếm:"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -89,7 +90,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="213dp"
-        android:background="#AADCE4"
+        android:background="@drawable/bo_goc_chung"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -123,6 +124,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
+        android:background="@drawable/bogoc_anh"
         android:orientation="vertical">
 
         <ImageView

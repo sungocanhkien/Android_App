@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="8dp"
-    android:background="#AADCE4"
+    android:background="@drawable/bo_goc_chung"
     android:orientation="vertical"
     android:layout_height="match_parent">
     <LinearLayout
