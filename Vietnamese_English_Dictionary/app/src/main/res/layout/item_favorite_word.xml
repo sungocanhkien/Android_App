@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#AADCE4"
+    android:background="#FFEB3B"
     android:gravity="center_vertical"
     android:padding="8dp">
 
@@ -26,7 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Original Word"
-                android:textSize="17sp"
+                android:layout_marginRight="10dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="?android:attr/textColorPrimary"></TextView>
             <TextView
@@ -34,16 +35,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Translation"
-                android:textSize="15sp"
+                android:textSize="17sp"
                 android:textColor="?android:attr/textColorSecondary" />
         </LinearLayout>
-        <ImageButton
-            android:id="@+id/btn_item_remove_favorite"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_delete"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Xóa từ khỏi trang yêu thích"
-            android:padding="8dp"/> <!-- Icon delete mặc định của Android -->
+            android:orientation="horizontal"
+            android:background="@color/ic_launcher_background">
+            <ImageButton
+                android:id="@+id/btn_item_remove_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Xóa từ khỏi trang yêu thích"
+                android:padding="8dp"/> <!-- Icon delete mặc định của Android -->
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

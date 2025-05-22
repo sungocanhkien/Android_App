@@ -20,15 +20,17 @@
             android:textSize="25dp"></TextView>
     </LinearLayout>
     <!-- RecyclerView để hiển thị danh sách các từ yêu thích -->
+    <!-- tools:listitem để xem trước trong Design view -->
+
+    <!-- TextView hiển thị khi danh sách yêu thích trống -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite_words"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
         android:scrollbars="vertical"
-        tools:listitem="@layout/item_favorite_word" /> <!-- tools:listitem để xem trước trong Design view -->
+        tools:listitem="@layout/item_favorite_word" />
 
-    <!-- TextView hiển thị khi danh sách yêu thích trống -->
     <TextView
         android:id="@+id/tv_no_favorites"
         android:layout_width="wrap_content"
