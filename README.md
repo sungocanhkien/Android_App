@@ -1,6 +1,7 @@
 <h1 align="center">LẬP TRÌNH THIẾT BỊ DI ĐỘNG<br>Mobile Programming</h1>
 <h2 align="left">ỨNG DỤNG TỪ ĐIỂN ANH-VIỆT, VIỆT-ANH</h2>
 <div>
+<h4 align="left">Giao diện figma của ứng dụng</h4>
   <img src = "https://github.com/sungocanhkien/Android_App/blob/main/Vietnamese_English_Dictionary/app/src/main/res/drawable/anh_giao_dien_1.PNG" width = "200">
   <img src = "https://github.com/sungocanhkien/Android_App/blob/main/Vietnamese_English_Dictionary/app/src/main/res/drawable/anh_giao_dien_2.PNG" width = "200">
   <img src = "https://github.com/sungocanhkien/Android_App/blob/main/Vietnamese_English_Dictionary/app/src/main/res/drawable/anh_giao_dien_3.PNG" width = "200">
