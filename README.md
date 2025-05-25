@@ -11,7 +11,7 @@
 
 <div>
 <h3 align="left">Giao diện Splash Screen khởi động ứng dụng</h3>
-<h4 align="left">Màn hình này hiển thị logo và tên ứng dụng trong 2 giây, đồng thời tiến hành khởi tạo và sao chép cơ sở dữ liệu nếu cần.</h4>
+<h4 align="left">Màn hình này hiển thị logo và tên ứng dụng trong 2 giây, , nhằm thể hiển tính chuyên nghiệp của ứng dụng và quản bá logo của ứng dụng.</h4>
   <img src = "https://github.com/sungocanhkien/Android_App/blob/main/Vietnamese_English_Dictionary/app/src/main/res/drawable/anh1.png" width = "200">
   <img src = "https://github.com/sungocanhkien/Android_App/blob/main/Vietnamese_English_Dictionary/app/src/main/res/drawable/anh2.png" width = "200">
 </div>
